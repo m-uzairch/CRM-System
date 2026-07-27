@@ -74,18 +74,18 @@ export default function AnalyticsPage() {
   return (
     <div className="space-y-6">
       {/* Title & Date Range Filter Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
         <div>
-          <h1 className="text-2xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+          <h1 className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white tracking-tight">
             Analytics & Revenue Insights
           </h1>
-          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
+          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5 sm:mt-1">
             Real-time pipeline analysis, win rates, and client revenue distribution.
           </p>
         </div>
 
         {/* Date Filter Pills */}
-        <div className="flex items-center p-1 bg-slate-200/60 dark:bg-slate-800 rounded-xl self-start">
+        <div className="flex items-center p-1 bg-slate-200/60 dark:bg-slate-800 rounded-xl self-start flex-wrap gap-1">
           {[
             { id: '7d', label: '7 Days' },
             { id: '30d', label: '30 Days' },
@@ -95,7 +95,7 @@ export default function AnalyticsPage() {
             <button
               key={range.id}
               onClick={() => setDateRange(range.id)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+              className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg text-[11px] sm:text-xs font-semibold transition-all ${
                 dateRange === range.id
                   ? 'bg-white dark:bg-slate-900 text-indigo-600 dark:text-indigo-400 shadow-xs'
                   : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
@@ -108,48 +108,48 @@ export default function AnalyticsPage() {
       </div>
 
       {/* Metric Cards Row */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="p-5 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-xs space-y-1">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+        <div className="p-4 sm:p-5 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-xs space-y-1">
           <span className="text-xs text-slate-500 font-medium">Pipeline Value</span>
-          <p className="text-2xl font-black text-indigo-600 dark:text-indigo-400">
+          <p className="text-xl sm:text-2xl font-black text-indigo-600 dark:text-indigo-400">
             {formatCurrency(deals.reduce((sum, d) => sum + d.value, 0))}
           </p>
         </div>
 
-        <div className="p-5 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-xs space-y-1">
+        <div className="p-4 sm:p-5 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-xs space-y-1">
           <span className="text-xs text-slate-500 font-medium">Win Rate</span>
-          <p className="text-2xl font-black text-emerald-600 dark:text-emerald-400">
+          <p className="text-xl sm:text-2xl font-black text-emerald-600 dark:text-emerald-400">
             {winRate}%
           </p>
         </div>
 
-        <div className="p-5 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-xs space-y-1">
+        <div className="p-4 sm:p-5 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-xs space-y-1">
           <span className="text-xs text-slate-500 font-medium">Paid Monthly Revenue</span>
-          <p className="text-2xl font-black text-purple-600 dark:text-purple-400">
+          <p className="text-xl sm:text-2xl font-black text-purple-600 dark:text-purple-400">
             {formatCurrency(29875)}
           </p>
         </div>
 
-        <div className="p-5 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-xs space-y-1">
+        <div className="p-4 sm:p-5 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-xs space-y-1">
           <span className="text-xs text-slate-500 font-medium">Deals Closed</span>
-          <p className="text-2xl font-black text-slate-900 dark:text-white">
+          <p className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white">
             {wonDeals} Closed
           </p>
         </div>
       </div>
 
       {/* Charts Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
         {/* Chart 1: Revenue Trend */}
-        <div className="p-6 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-xs space-y-4">
+        <div className="p-4 sm:p-6 bg-white dark:bg-slate-900 rounded-2xl sm:rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-xs space-y-4">
           <div>
-            <h3 className="font-bold text-base text-slate-900 dark:text-white">
+            <h3 className="font-bold text-sm sm:text-base text-slate-900 dark:text-white">
               Monthly Revenue Growth ($)
             </h3>
-            <p className="text-xs text-slate-400">Paid invoice totals over recent months</p>
+            <p className="text-[11px] sm:text-xs text-slate-400">Paid invoice totals over recent months</p>
           </div>
 
-          <div className="h-64 w-full">
+          <div className="h-52 sm:h-64 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={revenueTrendData}>
                 <defs>
@@ -172,15 +172,15 @@ export default function AnalyticsPage() {
         </div>
 
         {/* Chart 2: Pipeline Value by Stage */}
-        <div className="p-6 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-xs space-y-4">
+        <div className="p-4 sm:p-6 bg-white dark:bg-slate-900 rounded-2xl sm:rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-xs space-y-4">
           <div>
-            <h3 className="font-bold text-base text-slate-900 dark:text-white">
+            <h3 className="font-bold text-sm sm:text-base text-slate-900 dark:text-white">
               Pipeline Value by Stage ($)
             </h3>
-            <p className="text-xs text-slate-400">Total deal volume across pipeline stages</p>
+            <p className="text-[11px] sm:text-xs text-slate-400">Total deal volume across pipeline stages</p>
           </div>
 
-          <div className="h-64 w-full">
+          <div className="h-52 sm:h-64 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={pipelineByStageData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#334155" opacity={0.1} />

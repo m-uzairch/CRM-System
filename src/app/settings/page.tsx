@@ -28,8 +28,8 @@ export default function SettingsPage() {
       </div>
 
       {/* User Account Profile Card */}
-      <div className="p-6 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-xs space-y-4">
-        <div className="flex items-center justify-between">
+      <div className="p-5 sm:p-6 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-xs space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-4">
             <img
               src={user?.avatarUrl || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150'}
@@ -37,7 +37,7 @@ export default function SettingsPage() {
               className="w-14 h-14 rounded-2xl ring-4 ring-indigo-500/20 object-cover shrink-0"
             />
             <div>
-              <h3 className="font-extrabold text-lg text-slate-900 dark:text-white flex items-center gap-2">
+              <h3 className="font-extrabold text-base sm:text-lg text-slate-900 dark:text-white flex items-center gap-2 flex-wrap">
                 {user?.displayName || 'Alex Avex'}
                 <span className="text-[10px] px-2 py-0.5 rounded-full bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 font-bold border border-indigo-200 dark:border-indigo-800">
                   Active Account
@@ -48,7 +48,7 @@ export default function SettingsPage() {
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 self-start sm:self-auto">
             <button
               onClick={() => setShowProfileModal(true)}
               className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs rounded-xl shadow-xs transition-colors flex items-center gap-1.5"
@@ -67,7 +67,7 @@ export default function SettingsPage() {
       </div>
 
       {/* Account Switcher / Sign Up Card */}
-      <div className="p-6 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="p-5 sm:p-6 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h3 className="font-bold text-base text-slate-900 dark:text-white">Multi-User Account Switcher</h3>
           <p className="text-xs text-slate-500">Sign in with another company email or create a new isolated account.</p>
@@ -91,13 +91,13 @@ export default function SettingsPage() {
             }}
             className="flex items-center gap-1.5 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs rounded-xl shadow-xs transition-colors"
           >
-            <UserPlus size={14} /> Create New Account
+            <UserPlus size={14} /> Create Account
           </button>
         </div>
       </div>
 
       {/* Supabase Status Card */}
-      <div className="p-6 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-xs space-y-4">
+      <div className="p-5 sm:p-6 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-xs space-y-4">
         <div className="flex items-center gap-3">
           <div className="p-2.5 rounded-2xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400">
             <Database size={20} />
@@ -111,17 +111,17 @@ export default function SettingsPage() {
         <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800 space-y-2 text-xs">
           <div className="flex justify-between">
             <span className="text-slate-500">Migrations Schema:</span>
-            <span className="font-mono font-semibold text-slate-900 dark:text-white">supabase/schema.sql</span>
+            <span className="font-mono font-semibold text-slate-900 dark:text-white truncate max-w-[180px] sm:max-w-none">supabase/schema.sql</span>
           </div>
           <div className="flex justify-between">
             <span className="text-slate-500">Seed Script:</span>
-            <span className="font-mono font-semibold text-slate-900 dark:text-white">supabase/seed.sql</span>
+            <span className="font-mono font-semibold text-slate-900 dark:text-white truncate max-w-[180px] sm:max-w-none">supabase/seed.sql</span>
           </div>
         </div>
       </div>
 
       {/* Reset Seed Data */}
-      <div className="p-6 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-xs flex items-center justify-between">
+      <div className="p-5 sm:p-6 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h3 className="font-bold text-base text-slate-900 dark:text-white">Dataset Management for This Account</h3>
           <p className="text-xs text-slate-500">Clear workspace or load pre-seeded sample agency dataset.</p>

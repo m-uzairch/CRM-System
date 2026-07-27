@@ -94,18 +94,18 @@ export default function InvoicePDFModal({ invoice, onClose }: InvoicePDFModalPro
     <div className="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
       <div className="bg-white dark:bg-slate-900 rounded-3xl max-w-3xl w-full p-6 shadow-2xl border border-slate-200 dark:border-slate-800 animate-in fade-in zoom-in-95 duration-200 max-h-[95vh] flex flex-col">
         {/* Top Controls */}
-        <div className="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-800 shrink-0">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-100 dark:border-slate-800 shrink-0">
           <div className="flex items-center gap-2">
-            <FileText className="text-indigo-600 dark:text-indigo-400" size={20} />
-            <h3 className="text-lg font-bold text-slate-900 dark:text-white">
+            <FileText className="text-indigo-600 dark:text-indigo-400 shrink-0" size={20} />
+            <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white truncate">
               Invoice Preview — {invoice.invoice_number}
             </h3>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 self-end sm:self-auto">
             <button
               onClick={handlePrintInvoice}
-              className="flex items-center gap-1.5 px-3.5 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 text-xs font-semibold rounded-xl transition-colors"
+              className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 text-xs font-semibold rounded-xl transition-colors"
               title="Print Invoice"
             >
               <Printer size={14} />
@@ -114,14 +114,14 @@ export default function InvoicePDFModal({ invoice, onClose }: InvoicePDFModalPro
             <button
               onClick={handleDownloadPDF}
               disabled={isGenerating}
-              className="flex items-center gap-1.5 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold rounded-xl shadow-xs transition-colors disabled:opacity-50"
+              className="flex items-center gap-1.5 px-3.5 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold rounded-xl shadow-xs transition-colors disabled:opacity-50"
             >
               <Download size={14} />
-              <span>{isGenerating ? 'Generating PDF...' : 'Download PDF'}</span>
+              <span>{isGenerating ? 'Generating...' : 'Download PDF'}</span>
             </button>
             <button
               onClick={onClose}
-              className="p-2 rounded-xl text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
+              className="p-1.5 rounded-xl text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
             >
               <X size={18} />
             </button>
@@ -129,10 +129,10 @@ export default function InvoicePDFModal({ invoice, onClose }: InvoicePDFModalPro
         </div>
 
         {/* PDF Document Container */}
-        <div className="flex-1 overflow-y-auto p-4 bg-slate-100 dark:bg-slate-950 rounded-2xl mt-4">
+        <div className="flex-1 overflow-x-auto overflow-y-auto p-2 sm:p-4 bg-slate-100 dark:bg-slate-950 rounded-2xl mt-4">
           <div
             ref={printRef}
-            className="bg-white text-slate-900 p-8 sm:p-12 rounded-xl shadow-md max-w-2xl mx-auto space-y-8 font-sans"
+            className="bg-white text-slate-900 p-4 sm:p-12 rounded-xl shadow-md max-w-2xl mx-auto space-y-6 sm:space-y-8 font-sans min-w-[280px]"
           >
             {/* Header branding */}
             <div className="flex items-start justify-between border-b pb-6 border-slate-200">

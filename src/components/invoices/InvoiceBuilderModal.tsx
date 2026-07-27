@@ -187,7 +187,7 @@ export default function InvoiceBuilderModal({ isOpen, onClose }: InvoiceBuilderM
 
             <div className="space-y-2">
               {lineItems.map(item => (
-                <div key={item.id} className="flex items-center gap-2 p-2 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-200/60 dark:border-slate-700">
+                <div key={item.id} className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 p-2.5 sm:p-2 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-200/60 dark:border-slate-700">
                   <input
                     type="text"
                     placeholder="Description of service..."
@@ -195,27 +195,36 @@ export default function InvoiceBuilderModal({ isOpen, onClose }: InvoiceBuilderM
                     onChange={e => handleItemChange(item.id, 'description', e.target.value)}
                     className="flex-1 px-3 py-1.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-xs text-slate-900 dark:text-white focus:outline-none"
                   />
-                  <input
-                    type="number"
-                    min={1}
-                    value={item.quantity}
-                    onChange={e => handleItemChange(item.id, 'quantity', Number(e.target.value))}
-                    className="w-16 px-2 py-1.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-xs text-slate-900 dark:text-white focus:outline-none text-center"
-                  />
-                  <input
-                    type="number"
-                    min={0}
-                    value={item.unit_price}
-                    onChange={e => handleItemChange(item.id, 'unit_price', Number(e.target.value))}
-                    className="w-24 px-2 py-1.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-xs text-slate-900 dark:text-white focus:outline-none text-right"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => handleRemoveLineItem(item.id)}
-                    className="p-1.5 text-slate-400 hover:text-rose-600 transition-colors"
-                  >
-                    <Trash2 size={14} />
-                  </button>
+                  <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1 flex-1 sm:flex-none">
+                      <span className="text-[10px] text-slate-400 sm:hidden">Qty:</span>
+                      <input
+                        type="number"
+                        min={1}
+                        value={item.quantity}
+                        onChange={e => handleItemChange(item.id, 'quantity', Number(e.target.value))}
+                        className="w-16 px-2 py-1.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-xs text-slate-900 dark:text-white focus:outline-none text-center"
+                      />
+                    </div>
+                    <div className="flex items-center gap-1 flex-1 sm:flex-none">
+                      <span className="text-[10px] text-slate-400 sm:hidden">Price:</span>
+                      <input
+                        type="number"
+                        min={0}
+                        value={item.unit_price}
+                        onChange={e => handleItemChange(item.id, 'unit_price', Number(e.target.value))}
+                        className="w-24 px-2 py-1.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-xs text-slate-900 dark:text-white focus:outline-none text-right"
+                      />
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveLineItem(item.id)}
+                      className="p-1.5 text-slate-400 hover:text-rose-600 transition-colors"
+                      title="Remove line item"
+                    >
+                      <Trash2 size={16} />
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>

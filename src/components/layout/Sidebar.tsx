@@ -28,21 +28,26 @@ const navItems = [
   { name: 'Settings', href: '/settings', icon: Settings, badge: null },
 ];
 
-export default function Sidebar() {
+interface SidebarProps {
+  mobileOpen?: boolean;
+  onCloseMobile?: () => void;
+}
+
+export default function Sidebar({ mobileOpen = false, onCloseMobile }: SidebarProps) {
   const pathname = usePathname();
   const [collapsed, setCollapsed] = useState(false);
 
-  return (
-    <motion.aside
-      animate={{ width: collapsed ? 76 : 260 }}
-      transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-      className="relative flex flex-col h-full bg-white dark:bg-slate-900 border-r border-slate-200/80 dark:border-slate-800 z-30 shadow-xs select-none shrink-0"
-    >
+  const sidebarContent = (
+    <div className="flex flex-col h-full bg-white dark:bg-slate-900 select-none">
       {/* Brand Header */}
       <div className={`flex items-center h-16 border-b border-slate-100 dark:border-slate-800/80 transition-all ${
         collapsed ? 'justify-center px-2' : 'justify-between px-4'
       }`}>
-        <Link href="/" className="flex items-center gap-3 overflow-hidden">
+        <Link
+          href="/"
+          onClick={onCloseMobile}
+          className="flex items-center gap-3 overflow-hidden"
+        >
           <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center text-white font-bold text-xl shadow-md shadow-indigo-500/20 shrink-0">
             A
           </div>
@@ -66,16 +71,26 @@ export default function Sidebar() {
           )}
         </Link>
 
-        {/* Toggle Collapse Button */}
+        {/* Desktop Toggle Collapse Button */}
         <button
           onClick={() => setCollapsed(!collapsed)}
-          className={`p-1.5 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors ${
+          className={`hidden md:block p-1.5 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors ${
             collapsed ? 'absolute -right-3 top-5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-md z-40' : ''
           }`}
           title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
         >
           {collapsed ? <ChevronRight size={14} /> : <ChevronLeft size={18} />}
         </button>
+
+        {/* Mobile Close Button */}
+        {onCloseMobile && (
+          <button
+            onClick={onCloseMobile}
+            className="md:hidden p-2 rounded-xl text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
+          >
+            <ChevronLeft size={20} />
+          </button>
+        )}
       </div>
 
       {/* Navigation Links */}
@@ -88,6 +103,7 @@ export default function Sidebar() {
             <Link
               key={item.href}
               href={item.href}
+              onClick={onCloseMobile}
               title={collapsed ? item.name : undefined}
               className={`relative flex items-center gap-3.5 rounded-xl font-medium text-sm transition-all duration-150 group ${
                 collapsed ? 'justify-center p-3' : 'px-3 py-2.5'
@@ -150,6 +166,47 @@ export default function Sidebar() {
           </p>
         </div>
       )}
-    </motion.aside>
+    </div>
+  );
+
+  return (
+    <>
+      {/* Desktop Sidebar (hidden on mobile) */}
+      <motion.aside
+        animate={{ width: collapsed ? 76 : 260 }}
+        transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+        className="hidden md:flex relative flex-col h-full border-r border-slate-200/80 dark:border-slate-800 z-30 shadow-xs shrink-0"
+      >
+        {sidebarContent}
+      </motion.aside>
+
+      {/* Mobile Drawer (visible when mobileOpen is true) */}
+      <AnimatePresence>
+        {mobileOpen && (
+          <div className="fixed inset-0 z-50 md:hidden">
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={onCloseMobile}
+              className="absolute inset-0 bg-slate-950/60 backdrop-blur-xs"
+            />
+
+            {/* Mobile Drawer Panel */}
+            <motion.aside
+              initial={{ x: '-100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '-100%' }}
+              transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+              className="absolute left-0 top-0 bottom-0 w-72 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 shadow-2xl z-10 flex flex-col"
+            >
+              {sidebarContent}
+            </motion.aside>
+          </div>
+        )}
+      </AnimatePresence>
+    </>
   );
 }
+

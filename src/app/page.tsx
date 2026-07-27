@@ -23,15 +23,15 @@ export default function ExecutiveDashboard() {
   const displayName = user?.displayName || 'User';
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-5 sm:space-y-8">
       {/* Hero Welcome Banner */}
-      <div className="relative p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 text-white overflow-hidden shadow-xl shadow-indigo-500/10">
+      <div className="relative p-5 sm:p-8 rounded-2xl sm:rounded-3xl bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 text-white overflow-hidden shadow-xl shadow-indigo-500/10">
         <div className="relative z-10 space-y-2 max-w-2xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md text-xs font-semibold text-white/90">
-            <Sparkles size={14} className="text-amber-300" />
-            <span>Avex Creative Agency & Sales Command Center</span>
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md text-[11px] sm:text-xs font-semibold text-white/90">
+            <Sparkles size={14} className="text-amber-300 shrink-0" />
+            <span className="truncate">Avex Creative Agency & Sales Command Center</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-black tracking-tight leading-tight">
+          <h1 className="text-xl sm:text-3xl font-black tracking-tight leading-tight">
             Welcome back, {displayName}!
           </h1>
           <p className="text-xs sm:text-sm text-indigo-100/90 leading-relaxed font-medium">
@@ -42,13 +42,13 @@ export default function ExecutiveDashboard() {
         </div>
 
         {/* Decorative background blur shape */}
-        <div className="absolute -right-10 -bottom-10 w-64 h-64 bg-white/10 rounded-full blur-2xl pointer-events-none" />
+        <div className="absolute -right-10 -bottom-10 w-48 sm:w-64 h-48 sm:h-64 bg-white/10 rounded-full blur-2xl pointer-events-none" />
       </div>
 
       {/* Metric Stat Cards Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         {/* Total Paid Revenue */}
-        <div className="p-5 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-xs space-y-3">
+        <div className="p-4 sm:p-5 bg-white dark:bg-slate-900 rounded-2xl sm:rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-xs space-y-2 sm:space-y-3">
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold text-slate-500">Collected Revenue</span>
             <div className="p-2 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400">
@@ -56,7 +56,7 @@ export default function ExecutiveDashboard() {
             </div>
           </div>
           <div>
-            <p className="text-2xl font-black text-slate-900 dark:text-white">
+            <p className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white">
               {formatCurrency(totalPaidRevenue)}
             </p>
             <span className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1 mt-1">
@@ -66,7 +66,7 @@ export default function ExecutiveDashboard() {
         </div>
 
         {/* Active Opportunities */}
-        <div className="p-5 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-xs space-y-3">
+        <div className="p-4 sm:p-5 bg-white dark:bg-slate-900 rounded-2xl sm:rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-xs space-y-2 sm:space-y-3">
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold text-slate-500">Active Deals</span>
             <div className="p-2 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400">
@@ -74,7 +74,7 @@ export default function ExecutiveDashboard() {
             </div>
           </div>
           <div>
-            <p className="text-2xl font-black text-slate-900 dark:text-white">
+            <p className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white">
               {activeDealsCount} Deals
             </p>
             <span className="text-[11px] text-slate-400 mt-1 block">
@@ -84,7 +84,7 @@ export default function ExecutiveDashboard() {
         </div>
 
         {/* Total Pipeline Value */}
-        <div className="p-5 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-xs space-y-3">
+        <div className="p-4 sm:p-5 bg-white dark:bg-slate-900 rounded-2xl sm:rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-xs space-y-2 sm:space-y-3">
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold text-slate-500">Pipeline Value</span>
             <div className="p-2 rounded-xl bg-purple-50 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400">
@@ -92,7 +92,7 @@ export default function ExecutiveDashboard() {
             </div>
           </div>
           <div>
-            <p className="text-2xl font-black text-slate-900 dark:text-white">
+            <p className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white">
               {formatCurrency(totalPipelineValue)}
             </p>
             <span className="text-[11px] text-slate-400 mt-1 block">
@@ -102,7 +102,7 @@ export default function ExecutiveDashboard() {
         </div>
 
         {/* Total Active Clients */}
-        <div className="p-5 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-xs space-y-3">
+        <div className="p-4 sm:p-5 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-xs space-y-2 sm:space-y-3">
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold text-slate-500">Total Contacts</span>
             <div className="p-2 rounded-xl bg-sky-50 dark:bg-sky-950/60 text-sky-600 dark:text-sky-400">
@@ -110,7 +110,7 @@ export default function ExecutiveDashboard() {
             </div>
           </div>
           <div>
-            <p className="text-2xl font-black text-slate-900 dark:text-white">
+            <p className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white">
               {contacts.length} Contacts
             </p>
             <span className="text-[11px] text-slate-400 mt-1 block">
@@ -121,19 +121,19 @@ export default function ExecutiveDashboard() {
       </div>
 
       {/* Dashboard Main Grid: Today Widget + Recent Activities Feed */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
         {/* Left: Today & Upcoming Task Reminders */}
         <TodayWidget />
 
         {/* Right: Recent Activity Stream */}
-        <div className="p-5 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-xs space-y-4">
+        <div className="p-4 sm:p-5 bg-white dark:bg-slate-900 rounded-2xl sm:rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-xs space-y-4">
           <div className="flex items-center justify-between">
             <div>
-              <h3 className="font-bold text-base text-slate-900 dark:text-white flex items-center gap-2">
-                <Clock size={18} className="text-indigo-600 dark:text-indigo-400" />
+              <h3 className="font-bold text-sm sm:text-base text-slate-900 dark:text-white flex items-center gap-2">
+                <Clock size={18} className="text-indigo-600 dark:text-indigo-400 shrink-0" />
                 Recent CRM Activity Feed
               </h3>
-              <p className="text-xs text-slate-400">Live interactions & deal status updates</p>
+              <p className="text-[11px] sm:text-xs text-slate-400">Live interactions & deal status updates</p>
             </div>
           </div>
 
@@ -141,9 +141,9 @@ export default function ExecutiveDashboard() {
             {activities.slice(0, 5).map(act => (
               <div key={act.id} className="relative space-y-0.5">
                 <div className="absolute -left-[25px] top-1 w-3 h-3 rounded-full bg-indigo-500 ring-4 ring-white dark:ring-slate-900" />
-                <div className="flex items-center justify-between text-xs">
-                  <span className="font-bold text-slate-900 dark:text-white">{act.title}</span>
-                  <span className="text-[10px] text-slate-400">{formatTimeAgo(act.timestamp)}</span>
+                <div className="flex items-center justify-between text-xs gap-2">
+                  <span className="font-bold text-slate-900 dark:text-white truncate">{act.title}</span>
+                  <span className="text-[10px] text-slate-400 shrink-0">{formatTimeAgo(act.timestamp)}</span>
                 </div>
                 <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">{act.description}</p>
               </div>

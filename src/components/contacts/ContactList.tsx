@@ -96,12 +96,12 @@ export default function ContactList() {
         </div>
 
         {/* Right: Filters & Action Buttons */}
-        <div className="flex items-center gap-2 flex-wrap">
+        <div className="grid grid-cols-2 sm:flex items-center gap-2">
           {/* Status Filter */}
           <select
             value={selectedStatus}
             onChange={e => setSelectedStatus(e.target.value)}
-            className="px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs text-slate-700 dark:text-slate-300 focus:outline-none"
+            className="px-2.5 sm:px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs text-slate-700 dark:text-slate-300 focus:outline-none"
           >
             <option value="all">All Statuses</option>
             <option value="lead">Leads</option>
@@ -114,7 +114,7 @@ export default function ContactList() {
           <select
             value={selectedCompany}
             onChange={e => setSelectedCompany(e.target.value)}
-            className="px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs text-slate-700 dark:text-slate-300 focus:outline-none"
+            className="px-2.5 sm:px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs text-slate-700 dark:text-slate-300 focus:outline-none"
           >
             <option value="all">All Companies</option>
             {companies.map(co => (
@@ -125,17 +125,17 @@ export default function ContactList() {
           {/* Export CSV */}
           <button
             onClick={handleExportCSV}
-            className="flex items-center gap-1.5 px-3 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-medium rounded-xl transition-colors"
+            className="flex items-center justify-center gap-1.5 px-3 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-medium rounded-xl transition-colors"
             title="Export contacts to CSV file"
           >
             <Download size={14} />
-            <span>Export CSV</span>
+            <span>Export</span>
           </button>
 
           {/* Add Contact Button */}
           <button
             onClick={() => setShowCreateModal(true)}
-            className="flex items-center gap-1.5 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold rounded-xl shadow-xs transition-colors"
+            className="flex items-center justify-center gap-1.5 px-3 sm:px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold rounded-xl shadow-xs transition-colors"
           >
             <Plus size={15} />
             <span>Add Contact</span>
@@ -143,8 +143,69 @@ export default function ContactList() {
         </div>
       </div>
 
-      {/* Contacts Data Table */}
-      <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 overflow-hidden shadow-xs">
+      {/* Mobile Touch Cards View (hidden on desktop) */}
+      <div className="md:hidden space-y-3">
+        {filteredContacts.length === 0 ? (
+          <div className="p-8 text-center text-slate-400 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 text-xs">
+            No contacts found matching criteria.
+          </div>
+        ) : (
+          filteredContacts.map(contact => (
+            <div
+              key={contact.id}
+              onClick={() => setSelectedContactForDetail(contact)}
+              className="p-4 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-xs space-y-3 cursor-pointer hover:border-indigo-400 transition-colors"
+            >
+              <div className="flex items-start justify-between gap-3">
+                <div className="flex items-center gap-3">
+                  <img
+                    src={contact.avatar_url || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150'}
+                    alt={contact.name}
+                    className="w-10 h-10 rounded-xl object-cover shrink-0"
+                  />
+                  <div>
+                    <h4 className="font-bold text-sm text-slate-900 dark:text-white">
+                      {contact.name}
+                    </h4>
+                    <p className="text-xs text-slate-400">{contact.email}</p>
+                  </div>
+                </div>
+
+                <span className={`px-2.5 py-0.5 rounded-full border text-[10px] font-bold capitalize shrink-0 ${getContactStatusStyle(contact.status)}`}>
+                  {contact.status}
+                </span>
+              </div>
+
+              <div className="flex items-center justify-between text-xs text-slate-500 pt-2 border-t border-slate-100 dark:border-slate-800">
+                <span>{contact.company_name || 'Independent Client'}</span>
+                <div className="flex items-center gap-1" onClick={e => e.stopPropagation()}>
+                  <button
+                    onClick={() => setSelectedContactForDetail(contact)}
+                    className="p-1.5 rounded-lg text-slate-400 hover:text-indigo-600 transition-colors"
+                  >
+                    <Eye size={16} />
+                  </button>
+                  <button
+                    onClick={() => setSelectedContactForEdit(contact)}
+                    className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 transition-colors"
+                  >
+                    <Edit size={16} />
+                  </button>
+                  <button
+                    onClick={() => deleteContact(contact.id)}
+                    className="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 transition-colors"
+                  >
+                    <Trash2 size={16} />
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))
+        )}
+      </div>
+
+      {/* Desktop Data Table (hidden on mobile) */}
+      <div className="hidden md:block bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 overflow-hidden shadow-xs">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
             <thead className="bg-slate-50 dark:bg-slate-800/50 text-slate-500 font-semibold border-b border-slate-100 dark:border-slate-800 uppercase tracking-wider">

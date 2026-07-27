@@ -15,14 +15,14 @@ export default function CompanyList() {
   return (
     <div className="space-y-4">
       {/* Header bar */}
-      <div className="flex items-center justify-between p-4 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-xs">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-xs">
         <div>
           <h3 className="text-base font-bold text-slate-900 dark:text-white">Client Companies ({companies.length})</h3>
           <p className="text-xs text-slate-500">Manage client organizations and linked account details.</p>
         </div>
         <button
           onClick={() => setShowCreateModal(true)}
-          className="flex items-center gap-1.5 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold rounded-xl shadow-xs transition-colors"
+          className="flex items-center gap-1.5 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold rounded-xl shadow-xs transition-colors self-start sm:self-auto"
         >
           <Plus size={15} />
           <span>Add Company</span>

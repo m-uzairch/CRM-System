@@ -24,6 +24,7 @@ export default function KanbanBoard() {
   const [selectedDealForDetail, setSelectedDealForDetail] = useState<Deal | null>(null);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [defaultCreateStage, setDefaultCreateStage] = useState<DealStage>('new');
+  const [activeMobileStage, setActiveMobileStage] = useState<string>('all');
 
   const handleDragEnd = (result: DropResult) => {
     const { destination, draggableId } = result;
@@ -37,6 +38,11 @@ export default function KanbanBoard() {
     setDefaultCreateStage(stageId);
     setShowCreateModal(true);
   };
+
+  const visibleStages = STAGES.filter(stage => {
+    if (activeMobileStage === 'all') return true;
+    return stage.id === activeMobileStage;
+  });
 
   return (
     <div className="space-y-4 min-w-0">
@@ -62,10 +68,40 @@ export default function KanbanBoard() {
         </button>
       </div>
 
-      {/* Drag & Drop Board: Smooth horizontal scrollable layout with comfortable column widths */}
+      {/* Mobile Stage Selector Tabs (Phone screens) */}
+      <div className="flex sm:hidden items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none">
+        <button
+          onClick={() => setActiveMobileStage('all')}
+          className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-colors ${
+            activeMobileStage === 'all'
+              ? 'bg-indigo-600 text-white shadow-xs'
+              : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-800'
+          }`}
+        >
+          All Stages ({deals.length})
+        </button>
+        {STAGES.map(stage => {
+          const count = deals.filter(d => d.stage === stage.id).length;
+          return (
+            <button
+              key={stage.id}
+              onClick={() => setActiveMobileStage(stage.id)}
+              className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-colors ${
+                activeMobileStage === stage.id
+                  ? 'bg-indigo-600 text-white shadow-xs'
+                  : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-800'
+              }`}
+            >
+              {stage.label} ({count})
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Drag & Drop Board: Smooth horizontal scrollable layout */}
       <DragDropContext onDragEnd={handleDragEnd}>
         <div className="flex gap-4 overflow-x-auto pb-6 pt-1 items-start snap-x scrollbar-thin">
-          {STAGES.map(stage => {
+          {visibleStages.map(stage => {
             const stageDeals = deals.filter(d => d.stage === stage.id);
             const totalStageValue = stageDeals.reduce((sum, d) => sum + d.value, 0);
 

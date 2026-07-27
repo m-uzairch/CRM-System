@@ -73,25 +73,25 @@ export default function DealDetailModal({ deal, onClose }: DealDetailModalProps)
             className="relative w-full max-w-lg bg-white dark:bg-slate-900 h-full shadow-2xl border-l border-slate-200 dark:border-slate-800 flex flex-col z-10 overflow-hidden"
           >
             {/* Header */}
-            <div className="p-6 border-b border-slate-100 dark:border-slate-800 flex items-start justify-between">
-              <div className="space-y-1">
+            <div className="p-4 sm:p-6 border-b border-slate-100 dark:border-slate-800 flex items-start justify-between gap-3">
+              <div className="space-y-1 min-w-0">
                 <span className={`text-[10px] px-2.5 py-0.5 rounded-full border font-bold uppercase ${getStageBadgeStyle(deal.stage)}`}>
                   {deal.stage} stage
                 </span>
-                <h2 className="text-xl font-bold text-slate-900 dark:text-white pt-1">
+                <h2 className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white pt-1 truncate">
                   {deal.title}
                 </h2>
                 {deal.company_name && (
-                  <p className="text-xs text-slate-500 font-medium flex items-center gap-1">
-                    <Building2 size={13} /> {deal.company_name}
+                  <p className="text-xs text-slate-500 font-medium flex items-center gap-1 truncate">
+                    <Building2 size={13} className="shrink-0" /> {deal.company_name}
                   </p>
                 )}
               </div>
 
-              <div className="flex items-center gap-1">
+              <div className="flex items-center gap-1 shrink-0">
                 <button
                   onClick={() => setShowEditModal(true)}
-                  className="p-2 rounded-xl text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
+                  className="p-1.5 sm:p-2 rounded-xl text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
                 >
                   <Edit size={16} />
                 </button>
@@ -100,13 +100,13 @@ export default function DealDetailModal({ deal, onClose }: DealDetailModalProps)
                     deleteDeal(deal.id);
                     onClose();
                   }}
-                  className="p-2 rounded-xl text-slate-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/50"
+                  className="p-1.5 sm:p-2 rounded-xl text-slate-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/50"
                 >
                   <Trash2 size={16} />
                 </button>
                 <button
                   onClick={onClose}
-                  className="p-2 rounded-xl text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
+                  className="p-1.5 sm:p-2 rounded-xl text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
                 >
                   <X size={18} />
                 </button>
@@ -114,20 +114,20 @@ export default function DealDetailModal({ deal, onClose }: DealDetailModalProps)
             </div>
 
             {/* Content Body */}
-            <div className="flex-1 overflow-y-auto p-6 space-y-6">
+            <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 sm:space-y-6">
               {/* Value & AI Score Grid */}
-              <div className="grid grid-cols-2 gap-4">
-                <div className="p-4 rounded-2xl bg-indigo-50/50 dark:bg-indigo-950/40 border border-indigo-100 dark:border-indigo-900/50">
+              <div className="grid grid-cols-2 gap-3 sm:gap-4">
+                <div className="p-3.5 sm:p-4 rounded-2xl bg-indigo-50/50 dark:bg-indigo-950/40 border border-indigo-100 dark:border-indigo-900/50">
                   <span className="text-xs text-indigo-600 dark:text-indigo-400 font-semibold">Deal Value</span>
-                  <p className="text-2xl font-black text-indigo-700 dark:text-indigo-300 mt-1">
+                  <p className="text-xl sm:text-2xl font-black text-indigo-700 dark:text-indigo-300 mt-1">
                     {formatCurrency(deal.value)}
                   </p>
                 </div>
 
-                <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800">
+                <div className="p-3.5 sm:p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800">
                   <div className="flex items-center justify-between">
                     <span className="text-xs text-slate-500 font-semibold flex items-center gap-1">
-                      <Sparkles size={13} className="text-indigo-500" />
+                      <Sparkles size={13} className="text-indigo-500 shrink-0" />
                       AI Score
                     </span>
                     <button
@@ -138,7 +138,7 @@ export default function DealDetailModal({ deal, onClose }: DealDetailModalProps)
                       {isCalculatingScore ? '...' : 'Refresh'}
                     </button>
                   </div>
-                  <p className="text-2xl font-black text-slate-900 dark:text-white mt-1">
+                  <p className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white mt-1">
                     {deal.ai_score}/100
                   </p>
                 </div>
@@ -149,12 +149,12 @@ export default function DealDetailModal({ deal, onClose }: DealDetailModalProps)
                 <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-2">
                   Move Stage
                 </label>
-                <div className="grid grid-cols-3 gap-2">
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                   {(['new', 'qualified', 'proposal', 'negotiation', 'won', 'lost'] as DealStage[]).map(stg => (
                     <button
                       key={stg}
                       onClick={() => handleStageChange(stg)}
-                      className={`px-3 py-2 rounded-xl text-xs font-semibold capitalize border transition-all ${
+                      className={`px-2.5 py-2 rounded-xl text-xs font-semibold capitalize border transition-all ${
                         deal.stage === stg
                           ? 'bg-indigo-600 text-white border-indigo-600 shadow-xs'
                           : 'bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:border-indigo-400'

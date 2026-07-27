@@ -30,7 +30,7 @@ export default function TaskList() {
     return (
       <div
         key={task.id}
-        className={`p-4 rounded-2xl border transition-all flex items-center justify-between gap-3 group ${
+        className={`p-4 rounded-2xl border transition-all flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 group ${
           isCompleted
             ? 'bg-slate-50/50 dark:bg-slate-900/30 border-slate-200/50 dark:border-slate-800/50 opacity-60'
             : isOverdue
@@ -68,23 +68,25 @@ export default function TaskList() {
           </div>
         </div>
 
-        <div className="flex items-center gap-2 shrink-0">
+        <div className="flex items-center justify-between sm:justify-end gap-2 w-full sm:w-auto pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-100 dark:border-slate-800">
           <span className={`text-[10px] px-2.5 py-0.5 rounded-full border font-bold uppercase ${getTaskPriorityStyle(task.priority)}`}>
             {task.priority}
           </span>
 
-          <div className="opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
+          <div className="opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity flex items-center gap-1">
             <button
               onClick={() => setSelectedTaskForEdit(task)}
               className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
+              title="Edit Task"
             >
-              <Edit size={14} />
+              <Edit size={15} />
             </button>
             <button
               onClick={() => deleteTask(task.id)}
               className="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/50"
+              title="Delete Task"
             >
-              <Trash2 size={14} />
+              <Trash2 size={15} />
             </button>
           </div>
         </div>

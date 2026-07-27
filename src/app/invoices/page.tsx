@@ -89,8 +89,64 @@ export default function InvoicesPage() {
         </select>
       </div>
 
-      {/* Invoices Table */}
-      <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 overflow-hidden shadow-xs">
+      {/* Invoices Mobile Cards View (hidden on desktop) */}
+      <div className="md:hidden space-y-3">
+        {filteredInvoices.length === 0 ? (
+          <div className="p-8 text-center text-slate-400 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 text-xs">
+            No client invoices found.
+          </div>
+        ) : (
+          filteredInvoices.map(inv => (
+            <div
+              key={inv.id}
+              className="p-4 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-xs space-y-3"
+            >
+              <div className="flex items-start justify-between">
+                <div>
+                  <span className="font-bold text-sm text-slate-900 dark:text-white block">{inv.invoice_number}</span>
+                  <span className="text-xs font-semibold text-slate-700 dark:text-slate-300">{inv.client_name || 'Client'}</span>
+                  {inv.company_name && <p className="text-[11px] text-slate-400">{inv.company_name}</p>}
+                </div>
+
+                <p className="text-base font-black text-slate-900 dark:text-white">
+                  {formatCurrency(inv.total)}
+                </p>
+              </div>
+
+              <div className="flex items-center justify-between text-xs text-slate-500 pt-2 border-t border-slate-100 dark:border-slate-800">
+                <select
+                  value={inv.status}
+                  onChange={e => updateInvoiceStatus(inv.id, e.target.value as InvoiceStatus)}
+                  className={`px-2.5 py-1 rounded-full border text-[10px] font-bold capitalize focus:outline-none cursor-pointer ${getInvoiceStatusStyle(inv.status)}`}
+                >
+                  <option value="draft">Draft</option>
+                  <option value="sent">Sent</option>
+                  <option value="paid">Paid</option>
+                  <option value="overdue">Overdue</option>
+                </select>
+
+                <div className="flex items-center gap-1.5">
+                  <button
+                    onClick={() => setSelectedInvoiceForPDF(inv)}
+                    className="flex items-center gap-1 px-2.5 py-1 bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 hover:bg-indigo-100 rounded-lg font-semibold text-[11px] transition-colors"
+                  >
+                    <Eye size={13} /> PDF
+                  </button>
+                  <button
+                    onClick={() => deleteInvoice(inv.id)}
+                    className="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 transition-colors"
+                  >
+                    <Trash2 size={15} />
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))
+        )}
+      </div>
+
+      {/* Desktop Invoices Data Table (hidden on mobile) */}
+      <div className="hidden md:block bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 overflow-hidden shadow-xs">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
             <thead className="bg-slate-50 dark:bg-slate-800/50 text-slate-500 font-semibold border-b border-slate-100 dark:border-slate-800 uppercase tracking-wider">

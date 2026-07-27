@@ -3,8 +3,7 @@ import './globals.css';
 import { AuthProvider } from '@/lib/auth/auth-context';
 import { CRMProvider } from '@/lib/store/crm-context';
 import AuthGuard from '@/components/auth/AuthGuard';
-import Sidebar from '@/components/layout/Sidebar';
-import Header from '@/components/layout/Header';
+import AppLayout from '@/components/layout/AppLayout';
 
 export const metadata: Metadata = {
   title: 'Avex CRM — Modern All-Purpose CRM for Freelancers & Agencies',
@@ -22,18 +21,7 @@ export default function RootLayout({
         <AuthProvider>
           <AuthGuard>
             <CRMProvider>
-              <div className="flex h-screen overflow-hidden bg-slate-50 dark:bg-slate-950">
-                {/* Animated Navigation Sidebar */}
-                <Sidebar />
-
-                {/* Main Content Viewport */}
-                <div className="flex flex-col flex-1 min-w-0 overflow-hidden">
-                  <Header />
-                  <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
-                    {children}
-                  </main>
-                </div>
-              </div>
+              <AppLayout>{children}</AppLayout>
             </CRMProvider>
           </AuthGuard>
         </AuthProvider>
@@ -41,3 +29,4 @@ export default function RootLayout({
     </html>
   );
 }
+

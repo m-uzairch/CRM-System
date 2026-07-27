@@ -133,16 +133,16 @@ export default function ContactDetailModal({ contact, onClose }: ContactDetailMo
           className="relative w-full max-w-2xl bg-white dark:bg-slate-900 h-full shadow-2xl border-l border-slate-200 dark:border-slate-800 flex flex-col z-10 overflow-hidden"
         >
           {/* Header Bar */}
-          <div className="p-6 border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 flex items-start justify-between">
-            <div className="flex items-start gap-4">
+          <div className="p-4 sm:p-6 border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 flex items-start justify-between gap-3">
+            <div className="flex items-start gap-3 sm:gap-4 min-w-0">
               <img
                 src={contact.avatar_url || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150'}
                 alt={contact.name}
-                className="w-14 h-14 rounded-2xl ring-2 ring-indigo-500/20 object-cover shrink-0"
+                className="w-12 sm:w-14 h-12 sm:h-14 rounded-2xl ring-2 ring-indigo-500/20 object-cover shrink-0"
               />
-              <div className="space-y-1">
+              <div className="space-y-1 min-w-0">
                 <div className="flex items-center gap-2 flex-wrap">
-                  <h2 className="text-xl font-bold text-slate-900 dark:text-white">
+                  <h2 className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white truncate">
                     {contact.name}
                   </h2>
                   <span className={`text-xs px-2.5 py-0.5 rounded-full border font-semibold capitalize ${getContactStatusStyle(contact.status)}`}>
@@ -150,29 +150,29 @@ export default function ContactDetailModal({ contact, onClose }: ContactDetailMo
                   </span>
                 </div>
                 {contact.company_name && (
-                  <p className="text-xs text-slate-500 dark:text-slate-400 font-medium flex items-center gap-1.5">
-                    <Building2 size={13} />
+                  <p className="text-xs text-slate-500 dark:text-slate-400 font-medium flex items-center gap-1.5 truncate">
+                    <Building2 size={13} className="shrink-0" />
                     {contact.company_name}
                   </p>
                 )}
-                <div className="flex items-center gap-4 text-xs text-slate-500 dark:text-slate-400 pt-1">
-                  <span className="flex items-center gap-1"><Mail size={12} /> {contact.email}</span>
-                  <span className="flex items-center gap-1"><Phone size={12} /> {contact.phone}</span>
+                <div className="flex items-center gap-3 sm:gap-4 text-xs text-slate-500 dark:text-slate-400 pt-1 flex-wrap">
+                  <span className="flex items-center gap-1 truncate"><Mail size={12} className="shrink-0" /> {contact.email}</span>
+                  <span className="flex items-center gap-1"><Phone size={12} className="shrink-0" /> {contact.phone}</span>
                 </div>
               </div>
             </div>
 
             <button
               onClick={onClose}
-              className="p-2 rounded-xl text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+              className="p-1.5 sm:p-2 rounded-xl text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors shrink-0"
             >
               <X size={18} />
             </button>
           </div>
 
           {/* AI Activity Summary Banner */}
-          <div className="p-4 mx-6 mt-4 rounded-2xl bg-gradient-to-r from-indigo-500/10 via-purple-500/10 to-pink-500/10 border border-indigo-100 dark:border-indigo-900/50 space-y-2">
-            <div className="flex items-center justify-between">
+          <div className="p-4 mx-4 sm:mx-6 mt-4 rounded-2xl bg-gradient-to-r from-indigo-500/10 via-purple-500/10 to-pink-500/10 border border-indigo-100 dark:border-indigo-900/50 space-y-2">
+            <div className="flex items-center justify-between gap-2 flex-wrap">
               <div className="flex items-center gap-2 text-indigo-600 dark:text-indigo-400 font-semibold text-xs">
                 <Sparkles size={15} />
                 <span>Gemini AI Activity Summary</span>
@@ -192,7 +192,7 @@ export default function ContactDetailModal({ contact, onClose }: ContactDetailMo
           </div>
 
           {/* Navigation Tabs */}
-          <div className="flex items-center gap-2 px-6 pt-4 border-b border-slate-100 dark:border-slate-800 text-xs font-semibold">
+          <div className="flex items-center gap-2 px-4 sm:px-6 pt-4 border-b border-slate-100 dark:border-slate-800 text-xs font-semibold overflow-x-auto whitespace-nowrap scrollbar-none">
             {[
               { id: 'overview', label: 'Overview' },
               { id: 'deals', label: `Deals (${contactDeals.length})` },
@@ -203,7 +203,7 @@ export default function ContactDetailModal({ contact, onClose }: ContactDetailMo
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as any)}
-                className={`pb-3 px-1 border-b-2 transition-colors ${
+                className={`pb-3 px-1 border-b-2 transition-colors shrink-0 ${
                   activeTab === tab.id
                     ? 'border-indigo-600 text-indigo-600 dark:border-indigo-400 dark:text-indigo-400'
                     : 'border-transparent text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
@@ -215,7 +215,7 @@ export default function ContactDetailModal({ contact, onClose }: ContactDetailMo
           </div>
 
           {/* Tab Content Viewport */}
-          <div className="flex-1 overflow-y-auto p-6 space-y-6">
+          <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-6">
             {activeTab === 'overview' && (
               <div className="space-y-6">
                 {/* Stats row */}
