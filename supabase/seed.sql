@@ -21,14 +21,14 @@ INSERT INTO public.deals (id, contact_id, company_id, title, stage, value, curre
 
 -- Tasks
 INSERT INTO public.tasks (id, title, related_to_type, related_to_id, due_date, status, priority, reminder_at) VALUES
-('t4000000-0000-0000-0000-000000000001', 'Send updated proposal to Marcus Vance', 'deal', 'd3000000-0000-0000-0000-000000000002', NOW() + INTERVAL '1 day', 'todo', 'high', NOW() + INTERVAL '18 hours'),
-('t4000000-0000-0000-0000-000000000002', 'Schedule onboarding workshop with Sophia', 'contact', 'c2000000-0000-0000-0000-000000000003', NOW() + INTERVAL '2 days', 'todo', 'medium', NOW() + INTERVAL '1 day'),
-('t4000000-0000-0000-0000-000000000003', 'Review Elena wireframes & component specs', 'deal', 'd3000000-0000-0000-0000-000000000001', NOW() - INTERVAL '4 hours', 'in_progress', 'high', NOW() - INTERVAL '6 hours');
+('e4000000-0000-0000-0000-000000000001', 'Send updated proposal to Marcus Vance', 'deal', 'd3000000-0000-0000-0000-000000000002', NOW() + INTERVAL '1 day', 'todo', 'high', NOW() + INTERVAL '18 hours'),
+('e4000000-0000-0000-0000-000000000002', 'Schedule onboarding workshop with Sophia', 'contact', 'c2000000-0000-0000-0000-000000000003', NOW() + INTERVAL '2 days', 'todo', 'medium', NOW() + INTERVAL '1 day'),
+('e4000000-0000-0000-0000-000000000003', 'Review Elena wireframes & component specs', 'deal', 'd3000000-0000-0000-0000-000000000001', NOW() - INTERVAL '4 hours', 'in_progress', 'high', NOW() - INTERVAL '6 hours');
 
 -- Invoices
 INSERT INTO public.invoices (id, invoice_number, client_id, company_id, line_items, tax_rate, discount, subtotal, total, status, issue_date, due_date, notes) VALUES
-('i5000000-0000-0000-0000-000000000001', 'INV-2026-001', 'c2000000-0000-0000-0000-000000000003', 'c1000000-0000-0000-0000-000000000003', '[{"description":"Mobile App MVP Development - Sprint 1 & 2 Deposit","quantity":1,"unit_price":14500}]'::jsonb, 0.00, 0.00, 14500.00, 14500.00, 'paid', '2026-07-21', '2026-08-04', 'Thank you for choosing Avex Agency!'),
-('i5000000-0000-0000-0000-000000000002', 'INV-2026-002', 'c2000000-0000-0000-0000-000000000001', 'c1000000-0000-0000-0000-000000000001', '[{"description":"Brand Guidelines & Design Tokens Workshop","quantity":1,"unit_price":4500},{"description":"UI Asset Export & Component Library","quantity":1,"unit_price":3000}]'::jsonb, 5.00, 500.00, 7500.00, 7375.00, 'sent', '2026-07-24', '2026-08-07', 'Payment due within 14 days.');
+('f5000000-0000-0000-0000-000000000001', 'INV-2026-001', 'c2000000-0000-0000-0000-000000000003', 'c1000000-0000-0000-0000-000000000003', '[{"description":"Mobile App MVP Development - Sprint 1 & 2 Deposit","quantity":1,"unit_price":14500}]'::jsonb, 0.00, 0.00, 14500.00, 14500.00, 'paid', '2026-07-21', '2026-08-04', 'Thank you for choosing Avex Agency!'),
+('f5000000-0000-0000-0000-000000000002', 'INV-2026-002', 'c2000000-0000-0000-0000-000000000001', 'c1000000-0000-0000-0000-000000000001', '[{"description":"Brand Guidelines & Design Tokens Workshop","quantity":1,"unit_price":4500},{"description":"UI Asset Export & Component Library","quantity":1,"unit_price":3000}]'::jsonb, 5.00, 500.00, 7500.00, 7375.00, 'sent', '2026-07-24', '2026-08-07', 'Payment due within 14 days.');
 
 -- Activities
 INSERT INTO public.activities (id, contact_id, deal_id, type, title, description, timestamp) VALUES

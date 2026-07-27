@@ -186,7 +186,7 @@ export const initialDeals: Deal[] = [
 
 export const initialTasks: Task[] = [
   {
-    id: 't4000000-0000-0000-0000-000000000001',
+    id: 'e4000000-0000-0000-0000-000000000001',
     title: 'Send revised SLA proposal to Marcus Vance',
     related_to_type: 'deal',
     related_to_id: 'd3000000-0000-0000-0000-000000000002',
@@ -198,7 +198,7 @@ export const initialTasks: Task[] = [
     created_at: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
   },
   {
-    id: 't4000000-0000-0000-0000-000000000002',
+    id: 'e4000000-0000-0000-0000-000000000002',
     title: 'Prepare Sprint 1 Figma specs for Sophia Lin',
     related_to_type: 'contact',
     related_to_id: 'c2000000-0000-0000-0000-000000000003',
@@ -210,7 +210,7 @@ export const initialTasks: Task[] = [
     created_at: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
   },
   {
-    id: 't4000000-0000-0000-0000-000000000003',
+    id: 'e4000000-0000-0000-0000-000000000003',
     title: 'Review Elena wireframes & design tokens',
     related_to_type: 'deal',
     related_to_id: 'd3000000-0000-0000-0000-000000000001',
@@ -221,7 +221,7 @@ export const initialTasks: Task[] = [
     created_at: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
   },
   {
-    id: 't4000000-0000-0000-0000-000000000004',
+    id: 'e4000000-0000-0000-0000-000000000004',
     title: 'Draft proposal line items for Kroma Media',
     related_to_type: 'deal',
     related_to_id: 'd3000000-0000-0000-0000-000000000004',
@@ -254,7 +254,7 @@ export const initialNotes: Note[] = [
 
 export const initialInvoices: Invoice[] = [
   {
-    id: 'i5000000-0000-0000-0000-000000000001',
+    id: 'f5000000-0000-0000-0000-000000000001',
     invoice_number: 'INV-2026-001',
     client_id: 'c2000000-0000-0000-0000-000000000003',
     client_name: 'Sophia Lin',
@@ -276,7 +276,7 @@ export const initialInvoices: Invoice[] = [
     created_at: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000).toISOString(),
   },
   {
-    id: 'i5000000-0000-0000-0000-000000000002',
+    id: 'f5000000-0000-0000-0000-000000000002',
     invoice_number: 'INV-2026-002',
     client_id: 'c2000000-0000-0000-0000-000000000001',
     client_name: 'Elena Rostova',

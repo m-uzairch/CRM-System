@@ -15,11 +15,13 @@ export default function LoginPage() {
   const [companyName, setCompanyName] = useState('');
 
   const [errorMsg, setErrorMsg] = useState('');
+  const [successMsg, setSuccessMsg] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMsg('');
+    setSuccessMsg('');
     if (!email || !password) {
       setErrorMsg('Please enter your email and password.');
       return;
@@ -28,11 +30,19 @@ export default function LoginPage() {
     setIsLoading(true);
     try {
       if (tab === 'signin') {
-        const success = await login(email, password);
-        if (!success) setErrorMsg('Invalid email or password.');
+        const res = await login(email, password);
+        if (!res.success) {
+          setErrorMsg(res.error || 'Invalid email or password.');
+        }
       } else {
-        const success = await signup(email, password, displayName, companyName);
-        if (!success) setErrorMsg('Could not create account.');
+        const res = await signup(email, password, displayName, companyName);
+        if (!res.success) {
+          setErrorMsg(res.error || 'Could not create account in database.');
+        } else if (res.requiresEmailConfirmation) {
+          setSuccessMsg('Account created! Please check your email inbox to confirm your registration.');
+        } else {
+          setSuccessMsg('Account created successfully! Session synced to database.');
+        }
       }
     } catch (err: any) {
       setErrorMsg(err.message || 'Authentication failed.');
@@ -43,6 +53,8 @@ export default function LoginPage() {
 
   const handleDemoLogin = async () => {
     setIsLoading(true);
+    setErrorMsg('');
+    setSuccessMsg('');
     await login('alex@avexagency.com', 'demo1234');
     setIsLoading(false);
   };
@@ -152,6 +164,13 @@ export default function LoginPage() {
           {errorMsg && (
             <div className="p-3.5 rounded-xl bg-rose-950/60 border border-rose-800 text-xs text-rose-300 font-medium">
               {errorMsg}
+            </div>
+          )}
+
+          {successMsg && (
+            <div className="p-3.5 rounded-xl bg-emerald-950/60 border border-emerald-800 text-xs text-emerald-300 font-medium flex items-center gap-2">
+              <CheckCircle2 size={16} className="text-emerald-400 shrink-0" />
+              <span>{successMsg}</span>
             </div>
           )}
 

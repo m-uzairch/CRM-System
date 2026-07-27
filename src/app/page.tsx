@@ -5,11 +5,13 @@ import React from 'react';
 import Link from 'next/link';
 import { DollarSign, Kanban, Users, CheckSquare, TrendingUp, Sparkles, Plus, ArrowUpRight, Clock } from 'lucide-react';
 import { useCRM } from '@/lib/store/crm-context';
+import { useAuth } from '@/lib/auth/auth-context';
 import { formatCurrency, formatTimeAgo } from '@/lib/utils';
 import TodayWidget from '@/components/dashboard/TodayWidget';
 
 export default function ExecutiveDashboard() {
   const { contacts, deals, invoices, activities } = useCRM();
+  const { user } = useAuth();
 
   const totalPipelineValue = deals.reduce((sum, d) => sum + d.value, 0);
   const totalPaidRevenue = invoices
@@ -17,6 +19,8 @@ export default function ExecutiveDashboard() {
     .reduce((sum, i) => sum + i.total, 0);
   const activeDealsCount = deals.filter(d => d.stage !== 'won' && d.stage !== 'lost').length;
   const wonDealsCount = deals.filter(d => d.stage === 'won').length;
+
+  const displayName = user?.displayName || 'User';
 
   return (
     <div className="space-y-8">
@@ -28,7 +32,7 @@ export default function ExecutiveDashboard() {
             <span>Avex Creative Agency & Sales Command Center</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-black tracking-tight leading-tight">
-            Welcome back, Alex!
+            Welcome back, {displayName}!
           </h1>
           <p className="text-xs sm:text-sm text-indigo-100/90 leading-relaxed font-medium">
             Your pipeline holds{' '}

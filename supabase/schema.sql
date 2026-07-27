@@ -4,11 +4,45 @@
 -- Enable UUID extension
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
--- Enums
-CREATE TYPE contact_status AS ENUM ('lead', 'active', 'client', 'inactive');
-CREATE TYPE deal_stage AS ENUM ('new', 'qualified', 'proposal', 'negotiation', 'won', 'lost');
-CREATE TYPE task_status AS ENUM ('todo', 'in_progress', 'completed');
-CREATE TYPE invoice_status AS ENUM ('draft', 'sent', 'paid', 'overdue');
+-- Enums (idempotent)
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'contact_status') THEN
+    CREATE TYPE contact_status AS ENUM ('lead', 'active', 'client', 'inactive');
+  END IF;
+END $$;
+
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'deal_stage') THEN
+    CREATE TYPE deal_stage AS ENUM ('new', 'qualified', 'proposal', 'negotiation', 'won', 'lost');
+  END IF;
+END $$;
+
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'task_status') THEN
+    CREATE TYPE task_status AS ENUM ('todo', 'in_progress', 'completed');
+  END IF;
+END $$;
+
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'invoice_status') THEN
+    CREATE TYPE invoice_status AS ENUM ('draft', 'sent', 'paid', 'overdue');
+  END IF;
+END $$;
+
+-- User Profiles Table (Linked to Supabase Auth)
+CREATE TABLE IF NOT EXISTS public.profiles (
+    id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
+    email TEXT NOT NULL,
+    display_name TEXT,
+    company_name TEXT,
+    avatar_url TEXT,
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    updated_at TIMESTAMPTZ DEFAULT NOW()
+);
 
 -- Companies Table
 CREATE TABLE IF NOT EXISTS public.companies (
@@ -118,7 +152,8 @@ CREATE TABLE IF NOT EXISTS public.activities (
     timestamp TIMESTAMPTZ DEFAULT NOW()
 );
 
--- RLS Policies Setup
+-- Enable RLS Security on All Tables
+ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.companies ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.contacts ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.deals ENABLE ROW LEVEL SECURITY;
@@ -127,11 +162,99 @@ ALTER TABLE public.notes ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.invoices ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.activities ENABLE ROW LEVEL SECURITY;
 
--- Default Policies (Allow users to read/modify their own records)
-CREATE POLICY "Users can manage their own companies" ON public.companies FOR ALL USING (auth.uid() = user_id);
-CREATE POLICY "Users can manage their own contacts" ON public.contacts FOR ALL USING (auth.uid() = user_id);
-CREATE POLICY "Users can manage their own deals" ON public.deals FOR ALL USING (auth.uid() = user_id);
-CREATE POLICY "Users can manage their own tasks" ON public.tasks FOR ALL USING (auth.uid() = user_id);
-CREATE POLICY "Users can manage their own notes" ON public.notes FOR ALL USING (auth.uid() = user_id);
-CREATE POLICY "Users can manage their own invoices" ON public.invoices FOR ALL USING (auth.uid() = user_id);
-CREATE POLICY "Users can manage their own activities" ON public.activities FOR ALL USING (auth.uid() = user_id);
+-- Profiles Policy
+DROP POLICY IF EXISTS "Users can manage their own profile" ON public.profiles;
+CREATE POLICY "Users can manage their own profile"
+ON public.profiles
+FOR ALL
+TO authenticated
+USING (auth.uid() = id)
+WITH CHECK (auth.uid() = id);
+
+-- Companies Policy
+DROP POLICY IF EXISTS "Users can manage their own companies" ON public.companies;
+CREATE POLICY "Users can manage their own companies"
+ON public.companies
+FOR ALL
+TO authenticated
+USING (auth.uid() = user_id)
+WITH CHECK (auth.uid() = user_id);
+
+-- Contacts Policy
+DROP POLICY IF EXISTS "Users can manage their own contacts" ON public.contacts;
+CREATE POLICY "Users can manage their own contacts"
+ON public.contacts
+FOR ALL
+TO authenticated
+USING (auth.uid() = user_id)
+WITH CHECK (auth.uid() = user_id);
+
+-- Deals Policy
+DROP POLICY IF EXISTS "Users can manage their own deals" ON public.deals;
+CREATE POLICY "Users can manage their own deals"
+ON public.deals
+FOR ALL
+TO authenticated
+USING (auth.uid() = user_id)
+WITH CHECK (auth.uid() = user_id);
+
+-- Tasks Policy
+DROP POLICY IF EXISTS "Users can manage their own tasks" ON public.tasks;
+CREATE POLICY "Users can manage their own tasks"
+ON public.tasks
+FOR ALL
+TO authenticated
+USING (auth.uid() = user_id)
+WITH CHECK (auth.uid() = user_id);
+
+-- Notes Policy
+DROP POLICY IF EXISTS "Users can manage their own notes" ON public.notes;
+CREATE POLICY "Users can manage their own notes"
+ON public.notes
+FOR ALL
+TO authenticated
+USING (auth.uid() = user_id)
+WITH CHECK (auth.uid() = user_id);
+
+-- Invoices Policy
+DROP POLICY IF EXISTS "Users can manage their own invoices" ON public.invoices;
+CREATE POLICY "Users can manage their own invoices"
+ON public.invoices
+FOR ALL
+TO authenticated
+USING (auth.uid() = user_id)
+WITH CHECK (auth.uid() = user_id);
+
+-- Activities Policy
+DROP POLICY IF EXISTS "Users can manage their own activities" ON public.activities;
+CREATE POLICY "Users can manage their own activities"
+ON public.activities
+FOR ALL
+TO authenticated
+USING (auth.uid() = user_id)
+WITH CHECK (auth.uid() = user_id);
+
+-- Automatic Profile Creation Trigger on Auth Signup
+CREATE OR REPLACE FUNCTION public.handle_new_user()
+RETURNS TRIGGER AS $$
+BEGIN
+  INSERT INTO public.profiles (id, email, display_name, company_name, avatar_url)
+  VALUES (
+    new.id,
+    new.email,
+    COALESCE(new.raw_user_meta_data->>'displayName', split_part(new.email, '@', 1)),
+    COALESCE(new.raw_user_meta_data->>'companyName', 'Avex Workspace'),
+    COALESCE(new.raw_user_meta_data->>'avatarUrl', 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150')
+  )
+  ON CONFLICT (id) DO UPDATE SET
+    email = EXCLUDED.email,
+    display_name = EXCLUDED.display_name,
+    company_name = EXCLUDED.company_name;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
+CREATE TRIGGER on_auth_user_created
+  AFTER INSERT ON auth.users
+  FOR EACH ROW EXECUTE FUNCTION public.handle_new_user();
