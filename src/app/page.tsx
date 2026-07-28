@@ -17,7 +17,6 @@ import {
   FileText,
   AlertCircle,
   CheckCircle2,
-  Calendar,
   Filter,
 } from 'lucide-react';
 import {
@@ -34,7 +33,7 @@ import {
 import { useCRM } from '@/lib/store/crm-context';
 import { useAuth } from '@/lib/auth/auth-context';
 import { formatCurrency, formatTimeAgo } from '@/lib/utils';
-import { AVEX_THEME } from '@/lib/theme';
+import Card from '@/components/ui/Card';
 
 // Sample Sales Performance Trend Data
 const monthlySalesData = [
@@ -111,7 +110,7 @@ export default function ExecutiveDashboard() {
       {/* 1. Stat Cards Row (4 cards, 2-per-row on mobile) */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5">
         {/* Total Leads */}
-        <div className="avex-card avex-card-hover p-4 sm:p-5 space-y-3">
+        <Card glowColor="blue" className="p-4 sm:p-5 space-y-3">
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold text-slate-400">Total Leads</span>
             <div className="p-2 rounded-xl bg-blue-500/10 text-blue-400 border border-blue-500/20">
@@ -126,10 +125,10 @@ export default function ExecutiveDashboard() {
               <ArrowUpRight size={13} /> +12.4% from last mo
             </span>
           </div>
-        </div>
+        </Card>
 
         {/* Total Customers */}
-        <div className="avex-card avex-card-hover p-4 sm:p-5 space-y-3">
+        <Card glowColor="purple" className="p-4 sm:p-5 space-y-3">
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold text-slate-400">Total Customers</span>
             <div className="p-2 rounded-xl bg-purple-500/10 text-purple-400 border border-purple-500/20">
@@ -144,10 +143,10 @@ export default function ExecutiveDashboard() {
               <ArrowUpRight size={13} /> +8.2% from last mo
             </span>
           </div>
-        </div>
+        </Card>
 
         {/* Active Deals */}
-        <div className="avex-card avex-card-hover p-4 sm:p-5 space-y-3">
+        <Card glowColor="amber" className="p-4 sm:p-5 space-y-3">
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold text-slate-400">Active Deals</span>
             <div className="p-2 rounded-xl bg-amber-500/10 text-amber-400 border border-amber-500/20">
@@ -162,10 +161,10 @@ export default function ExecutiveDashboard() {
               <ArrowUpRight size={13} /> +15.0% from last mo
             </span>
           </div>
-        </div>
+        </Card>
 
         {/* Total Revenue */}
-        <div className="avex-card avex-card-hover p-4 sm:p-5 space-y-3">
+        <Card glowColor="emerald" className="p-4 sm:p-5 space-y-3">
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold text-slate-400">Total Revenue</span>
             <div className="p-2 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
@@ -180,13 +179,13 @@ export default function ExecutiveDashboard() {
               <ArrowUpRight size={13} /> +24.8% from last mo
             </span>
           </div>
-        </div>
+        </Card>
       </div>
 
       {/* 2. Main Analytics Row: Sales Overview Chart (Left/Center) + AI Insights Panel (Right) */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Sales Overview Chart (2 Columns) */}
-        <div className="lg:col-span-2 avex-card p-5 sm:p-6 space-y-4">
+        <Card glowColor="blue" className="lg:col-span-2 p-5 sm:p-6 space-y-4">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-2 border-b border-white/[0.06]">
             <div>
               <h3 className="text-base font-extrabold text-white flex items-center gap-2">
@@ -264,10 +263,10 @@ export default function ExecutiveDashboard() {
               </AreaChart>
             </ResponsiveContainer>
           </div>
-        </div>
+        </Card>
 
         {/* AI Insights Panel (1 Column, Glow Styling) */}
-        <div className="avex-ai-glow p-5 sm:p-6 rounded-2xl flex flex-col justify-between space-y-5">
+        <Card variant="ai" glowColor="purple" className="p-5 sm:p-6 flex flex-col justify-between space-y-5">
           <div className="space-y-4">
             <div className="flex items-center justify-between pb-3 border-b border-purple-500/20">
               <div className="flex items-center gap-2">
@@ -334,13 +333,13 @@ export default function ExecutiveDashboard() {
             <span>View All AI Insights</span>
             <ChevronRight size={14} />
           </Link>
-        </div>
+        </Card>
       </div>
 
       {/* 3. Secondary Widgets Row: Lead Pipeline Donut + Recent Activities + Document Extraction + Top Customers */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {/* Lead Pipeline Donut Chart */}
-        <div className="avex-card p-5 space-y-4 flex flex-col justify-between">
+        <Card glowColor="blue" className="p-5 space-y-4 flex flex-col justify-between">
           <div className="flex items-center justify-between pb-2 border-b border-white/[0.06]">
             <h4 className="text-xs font-extrabold text-white">Lead Pipeline Breakdown</h4>
             <span className="text-[10px] text-slate-400 font-semibold">By Stage</span>
@@ -385,10 +384,10 @@ export default function ExecutiveDashboard() {
               </div>
             ))}
           </div>
-        </div>
+        </Card>
 
         {/* Recent Activities Feed */}
-        <div className="avex-card p-5 space-y-4">
+        <Card glowColor="purple" className="p-5 space-y-4">
           <div className="flex items-center justify-between pb-2 border-b border-white/[0.06]">
             <h4 className="text-xs font-extrabold text-white flex items-center gap-1.5">
               <Clock size={15} className="text-purple-400" />
@@ -413,10 +412,10 @@ export default function ExecutiveDashboard() {
               </div>
             ))}
           </div>
-        </div>
+        </Card>
 
         {/* Document Extraction Card */}
-        <div className="avex-card p-5 space-y-4 flex flex-col justify-between">
+        <Card glowColor="blue" className="p-5 space-y-4 flex flex-col justify-between">
           <div className="flex items-center justify-between pb-2 border-b border-white/[0.06]">
             <h4 className="text-xs font-extrabold text-white flex items-center gap-1.5">
               <FileText size={15} className="text-blue-400" />
@@ -443,10 +442,10 @@ export default function ExecutiveDashboard() {
           <p className="text-[10px] text-slate-400 text-center">
             Auto-parses client metadata & deal values into CRM fields using Gemini AI.
           </p>
-        </div>
+        </Card>
 
         {/* Top Customers List */}
-        <div className="avex-card p-5 space-y-4 flex flex-col justify-between">
+        <Card glowColor="emerald" className="p-5 space-y-4 flex flex-col justify-between">
           <div className="flex items-center justify-between pb-2 border-b border-white/[0.06]">
             <h4 className="text-xs font-extrabold text-white">Top Revenue Customers</h4>
             <Link href="/contacts" className="text-[10px] text-purple-400 hover:underline font-semibold">
@@ -481,7 +480,7 @@ export default function ExecutiveDashboard() {
               Top 10% customers generate 74% of revenue
             </span>
           </div>
-        </div>
+        </Card>
       </div>
     </div>
   );

@@ -3,7 +3,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { DollarSign, Kanban, Users, TrendingUp, Sparkles, CheckCircle2, ArrowUpRight, Bot } from 'lucide-react';
+import { DollarSign, Kanban, TrendingUp, ArrowUpRight, Bot } from 'lucide-react';
 
 // Animated Count-Up Hook
 function AnimatedCounter({ from = 0, to, duration = 1.5, formatter = (v: number) => v.toString() }: { from?: number; to: number; duration?: number; formatter?: (val: number) => string }) {
@@ -73,14 +73,15 @@ export default function AnimatedDashboardMockup() {
         </div>
       </div>
 
-      {/* Metric Stat Cards Grid with Staggered Entrance */}
+      {/* Metric Stat Cards Grid with Staggered Entrance & Smooth Hover */}
       <div className="grid grid-cols-2 gap-3">
         {/* Stat Card 1 */}
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.15, duration: 0.5 }}
-          className="p-3.5 rounded-2xl bg-[#151520] border border-white/[0.06] space-y-1.5"
+          whileHover={{ y: -4, scale: 1.015, borderColor: 'rgba(255, 255, 255, 0.16)' }}
+          transition={{ delay: 0.15, duration: 0.3 }}
+          className="p-3.5 rounded-2xl bg-[#151520] border border-white/[0.06] space-y-1.5 transition-colors cursor-pointer"
         >
           <div className="flex items-center justify-between">
             <span className="text-[11px] font-medium text-slate-400">Total Revenue</span>
@@ -100,8 +101,9 @@ export default function AnimatedDashboardMockup() {
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.25, duration: 0.5 }}
-          className="p-3.5 rounded-2xl bg-[#151520] border border-white/[0.06] space-y-1.5"
+          whileHover={{ y: -4, scale: 1.015, borderColor: 'rgba(255, 255, 255, 0.16)' }}
+          transition={{ delay: 0.25, duration: 0.3 }}
+          className="p-3.5 rounded-2xl bg-[#151520] border border-white/[0.06] space-y-1.5 transition-colors cursor-pointer"
         >
           <div className="flex items-center justify-between">
             <span className="text-[11px] font-medium text-slate-400">Active Deals</span>
@@ -118,12 +120,13 @@ export default function AnimatedDashboardMockup() {
         </motion.div>
       </div>
 
-      {/* Sales Overview SVG Line Chart with Path Draw-In Animation */}
+      {/* Sales Overview SVG Line Chart */}
       <motion.div
         initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.35, duration: 0.5 }}
-        className="p-4 rounded-2xl bg-[#151520] border border-white/[0.06] space-y-3"
+        whileHover={{ y: -4, scale: 1.015, borderColor: 'rgba(255, 255, 255, 0.16)' }}
+        transition={{ delay: 0.35, duration: 0.3 }}
+        className="p-4 rounded-2xl bg-[#151520] border border-white/[0.06] space-y-3 transition-colors cursor-pointer"
       >
         <div className="flex items-center justify-between">
           <div>
@@ -141,7 +144,6 @@ export default function AnimatedDashboardMockup() {
         {/* SVG Animated Chart Line */}
         <div className="relative h-28 w-full pt-2">
           <svg className="w-full h-full overflow-visible" viewBox="0 0 400 100" preserveAspectRatio="none">
-            {/* Gradient definition */}
             <defs>
               <linearGradient id="mockupGradient" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="0%" stopColor="#3B82F6" stopOpacity="0.4" />
@@ -149,7 +151,6 @@ export default function AnimatedDashboardMockup() {
               </linearGradient>
             </defs>
 
-            {/* Filled Gradient Area */}
             <motion.path
               d="M 0 80 Q 80 40 160 60 T 320 20 L 400 10 L 400 100 L 0 100 Z"
               fill="url(#mockupGradient)"
@@ -158,7 +159,6 @@ export default function AnimatedDashboardMockup() {
               transition={{ delay: 0.6, duration: 1 }}
             />
 
-            {/* Glowing Stroke Path drawing in */}
             <motion.path
               d="M 0 80 Q 80 40 160 60 T 320 20 L 400 10"
               fill="none"
@@ -178,7 +178,6 @@ export default function AnimatedDashboardMockup() {
               </linearGradient>
             </defs>
 
-            {/* Animated Data Point Pulse */}
             <motion.circle
               cx="400"
               cy="10"
@@ -196,8 +195,9 @@ export default function AnimatedDashboardMockup() {
       <motion.div
         initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.45, duration: 0.5 }}
-        className="p-3 rounded-2xl bg-avex-ai-glow space-y-1.5"
+        whileHover={{ y: -4, scale: 1.015, borderColor: 'rgba(168, 85, 247, 0.5)' }}
+        transition={{ delay: 0.45, duration: 0.3 }}
+        className="p-3 rounded-2xl bg-avex-ai-glow space-y-1.5 transition-colors cursor-pointer"
       >
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1.5 text-xs font-bold text-white">

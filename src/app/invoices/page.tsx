@@ -2,12 +2,13 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Plus, FileText, Download, CheckCircle2, Clock, DollarSign, Eye, Trash2 } from 'lucide-react';
+import { Plus, Download, Eye, Trash2, CheckCircle2 } from 'lucide-react';
 import { useCRM } from '@/lib/store/crm-context';
-import { Invoice, InvoiceStatus } from '@/lib/types';
+import { Invoice } from '@/lib/types';
 import { formatCurrency, formatDate, getInvoiceStatusStyle } from '@/lib/utils';
 import InvoiceBuilderModal from '@/components/invoices/InvoiceBuilderModal';
 import InvoicePDFModal from '@/components/invoices/InvoicePDFModal';
+import Card from '@/components/ui/Card';
 
 export default function InvoicesPage() {
   const { invoices, updateInvoiceStatus, deleteInvoice } = useCRM();
@@ -15,35 +16,35 @@ export default function InvoicesPage() {
   const [selectedInvoiceForPDF, setSelectedInvoiceForPDF] = useState<Invoice | null>(null);
   const [filterStatus, setFilterStatus] = useState<string>('all');
 
-  const filteredInvoices = invoices.filter(i => {
+  const filteredInvoices = invoices.filter((i) => {
     if (filterStatus === 'all') return true;
     return i.status === filterStatus;
   });
 
   const totalPaidRevenue = invoices
-    .filter(i => i.status === 'paid')
+    .filter((i) => i.status === 'paid')
     .reduce((sum, i) => sum + i.total, 0);
 
   const totalOutstanding = invoices
-    .filter(i => i.status === 'sent' || i.status === 'overdue')
+    .filter((i) => i.status === 'sent' || i.status === 'overdue')
     .reduce((sum, i) => sum + i.total, 0);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 select-none">
       {/* Page Title & Action Bar */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+          <h1 className="text-2xl font-extrabold text-white tracking-tight">
             Client Invoicing & Payments
           </h1>
-          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
+          <p className="text-xs sm:text-sm text-slate-400 mt-1">
             Create, track, and export professional PDF invoices for clients.
           </p>
         </div>
 
         <button
           onClick={() => setShowBuilderModal(true)}
-          className="flex items-center gap-1.5 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold rounded-xl shadow-xs transition-colors self-start sm:self-auto"
+          className="flex items-center gap-1.5 px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white text-xs font-bold rounded-xl shadow-lg shadow-purple-600/30 transition-all self-start sm:self-auto"
         >
           <Plus size={15} />
           <span>Create Invoice</span>
@@ -51,158 +52,104 @@ export default function InvoicesPage() {
       </div>
 
       {/* Revenue Stat Metrics */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        <div className="p-5 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-xs space-y-1">
-          <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">Total Paid Revenue</span>
-          <p className="text-2xl font-black text-emerald-600 dark:text-emerald-400">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <Card glowColor="emerald" className="p-5 space-y-1">
+          <span className="text-xs text-slate-400 font-semibold">Total Paid Revenue</span>
+          <p className="text-2xl font-extrabold text-emerald-400">
             {formatCurrency(totalPaidRevenue)}
           </p>
-        </div>
+        </Card>
 
-        <div className="p-5 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-xs space-y-1">
-          <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">Outstanding Invoices</span>
-          <p className="text-2xl font-black text-amber-600 dark:text-amber-400">
+        <Card glowColor="amber" className="p-5 space-y-1">
+          <span className="text-xs text-slate-400 font-semibold">Outstanding Balance</span>
+          <p className="text-2xl font-extrabold text-amber-400">
             {formatCurrency(totalOutstanding)}
           </p>
-        </div>
+        </Card>
 
-        <div className="p-5 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-xs space-y-1">
-          <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">Total Invoices Issued</span>
-          <p className="text-2xl font-black text-slate-900 dark:text-white">
+        <Card glowColor="blue" className="p-5 space-y-1">
+          <span className="text-xs text-slate-400 font-semibold">Total Invoices</span>
+          <p className="text-2xl font-extrabold text-white">
             {invoices.length} Invoices
           </p>
+        </Card>
+      </div>
+
+      {/* Invoices List Table */}
+      <Card className="overflow-hidden p-0" interactive={false}>
+        {/* Table Filter Controls */}
+        <div className="p-4 border-b border-white/[0.06] flex items-center justify-between gap-4">
+          <span className="text-xs font-extrabold text-white">Invoice History</span>
+          <select
+            value={filterStatus}
+            onChange={(e) => setFilterStatus(e.target.value)}
+            className="px-3 py-1.5 bg-[#0A0A0F] border border-white/[0.08] rounded-xl text-xs text-slate-300 focus:outline-none"
+          >
+            <option value="all">All Invoices</option>
+            <option value="draft">Drafts</option>
+            <option value="sent">Sent</option>
+            <option value="paid">Paid</option>
+            <option value="overdue">Overdue</option>
+          </select>
         </div>
-      </div>
 
-      {/* Filters Toolbar */}
-      <div className="flex items-center justify-between p-4 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-xs">
-        <select
-          value={filterStatus}
-          onChange={e => setFilterStatus(e.target.value)}
-          className="px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs text-slate-700 dark:text-slate-300"
-        >
-          <option value="all">All Statuses</option>
-          <option value="draft">Draft</option>
-          <option value="sent">Sent</option>
-          <option value="paid">Paid</option>
-          <option value="overdue">Overdue</option>
-        </select>
-      </div>
-
-      {/* Invoices Mobile Cards View (hidden on desktop) */}
-      <div className="md:hidden space-y-3">
-        {filteredInvoices.length === 0 ? (
-          <div className="p-8 text-center text-slate-400 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 text-xs">
-            No client invoices found.
-          </div>
-        ) : (
-          filteredInvoices.map(inv => (
-            <div
-              key={inv.id}
-              className="p-4 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-xs space-y-3"
-            >
-              <div className="flex items-start justify-between">
-                <div>
-                  <span className="font-bold text-sm text-slate-900 dark:text-white block">{inv.invoice_number}</span>
-                  <span className="text-xs font-semibold text-slate-700 dark:text-slate-300">{inv.client_name || 'Client'}</span>
-                  {inv.company_name && <p className="text-[11px] text-slate-400">{inv.company_name}</p>}
-                </div>
-
-                <p className="text-base font-black text-slate-900 dark:text-white">
-                  {formatCurrency(inv.total)}
-                </p>
-              </div>
-
-              <div className="flex items-center justify-between text-xs text-slate-500 pt-2 border-t border-slate-100 dark:border-slate-800">
-                <select
-                  value={inv.status}
-                  onChange={e => updateInvoiceStatus(inv.id, e.target.value as InvoiceStatus)}
-                  className={`px-2.5 py-1 rounded-full border text-[10px] font-bold capitalize focus:outline-none cursor-pointer ${getInvoiceStatusStyle(inv.status)}`}
-                >
-                  <option value="draft">Draft</option>
-                  <option value="sent">Sent</option>
-                  <option value="paid">Paid</option>
-                  <option value="overdue">Overdue</option>
-                </select>
-
-                <div className="flex items-center gap-1.5">
-                  <button
-                    onClick={() => setSelectedInvoiceForPDF(inv)}
-                    className="flex items-center gap-1 px-2.5 py-1 bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 hover:bg-indigo-100 rounded-lg font-semibold text-[11px] transition-colors"
-                  >
-                    <Eye size={13} /> PDF
-                  </button>
-                  <button
-                    onClick={() => deleteInvoice(inv.id)}
-                    className="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 transition-colors"
-                  >
-                    <Trash2 size={15} />
-                  </button>
-                </div>
-              </div>
-            </div>
-          ))
-        )}
-      </div>
-
-      {/* Desktop Invoices Data Table (hidden on mobile) */}
-      <div className="hidden md:block bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 overflow-hidden shadow-xs">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
-            <thead className="bg-slate-50 dark:bg-slate-800/50 text-slate-500 font-semibold border-b border-slate-100 dark:border-slate-800 uppercase tracking-wider">
+            <thead className="bg-[#0D0D14] text-slate-400 font-bold uppercase tracking-wider border-b border-white/[0.06]">
               <tr>
                 <th className="p-4">Invoice #</th>
-                <th className="p-4">Client</th>
-                <th className="p-4">Issue Date</th>
-                <th className="p-4">Due Date</th>
+                <th className="p-4">Client / Company</th>
                 <th className="p-4">Amount</th>
                 <th className="p-4">Status</th>
+                <th className="p-4">Issue Date</th>
                 <th className="p-4 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 dark:divide-slate-800/80">
+            <tbody className="divide-y divide-white/[0.04]">
               {filteredInvoices.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="p-12 text-center text-slate-400">
-                    No client invoices found.
+                  <td colSpan={6} className="p-12 text-center text-slate-400">
+                    No invoices found.
                   </td>
                 </tr>
               ) : (
-                filteredInvoices.map(inv => (
-                  <tr key={inv.id} className="hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition-colors">
-                    <td className="p-4 font-bold text-slate-900 dark:text-white">
-                      {inv.invoice_number}
-                    </td>
+                filteredInvoices.map((inv) => (
+                  <tr key={inv.id} className="hover:bg-white/[0.03] transition-colors group">
+                    <td className="p-4 font-bold text-white">{inv.invoice_number}</td>
+                    <td className="p-4 font-medium text-slate-300">{inv.client_name}</td>
+                    <td className="p-4 font-extrabold text-white">{formatCurrency(inv.total)}</td>
                     <td className="p-4">
-                      <span className="font-semibold text-slate-800 dark:text-slate-200 block">{inv.client_name || 'Client'}</span>
-                      {inv.company_name && <span className="text-[11px] text-slate-400">{inv.company_name}</span>}
-                    </td>
-                    <td className="p-4 text-slate-600 dark:text-slate-400">{formatDate(inv.issue_date)}</td>
-                    <td className="p-4 text-slate-600 dark:text-slate-400">{formatDate(inv.due_date)}</td>
-                    <td className="p-4 font-extrabold text-slate-900 dark:text-white">{formatCurrency(inv.total)}</td>
-                    <td className="p-4">
-                      <select
-                        value={inv.status}
-                        onChange={e => updateInvoiceStatus(inv.id, e.target.value as InvoiceStatus)}
-                        className={`px-2.5 py-1 rounded-full border text-[10px] font-bold capitalize focus:outline-none cursor-pointer ${getInvoiceStatusStyle(inv.status)}`}
+                      <span
+                        className={`px-2.5 py-0.5 rounded-full border text-[10px] font-bold capitalize ${getInvoiceStatusStyle(
+                          inv.status
+                        )}`}
                       >
-                        <option value="draft">Draft</option>
-                        <option value="sent">Sent</option>
-                        <option value="paid">Paid</option>
-                        <option value="overdue">Overdue</option>
-                      </select>
+                        {inv.status}
+                      </span>
                     </td>
+                    <td className="p-4 text-slate-400">{formatDate(inv.issue_date)}</td>
                     <td className="p-4 text-right">
                       <div className="flex items-center justify-end gap-1">
+                        {inv.status !== 'paid' && (
+                          <button
+                            onClick={() => updateInvoiceStatus(inv.id, 'paid')}
+                            className="p-1.5 rounded-lg text-emerald-400 hover:bg-emerald-500/10 transition-colors"
+                            title="Mark as Paid"
+                          >
+                            <CheckCircle2 size={15} />
+                          </button>
+                        )}
                         <button
                           onClick={() => setSelectedInvoiceForPDF(inv)}
-                          className="flex items-center gap-1 px-2.5 py-1 bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 hover:bg-indigo-100 rounded-lg font-semibold text-[11px] transition-colors"
+                          className="p-1.5 rounded-lg text-purple-400 hover:bg-purple-500/10 transition-colors"
+                          title="View / Export PDF"
                         >
-                          <Eye size={13} /> PDF Preview
+                          <Eye size={15} />
                         </button>
                         <button
                           onClick={() => deleteInvoice(inv.id)}
-                          className="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/50 transition-colors"
+                          className="p-1.5 rounded-lg text-slate-400 hover:text-rose-400 hover:bg-white/[0.06] transition-colors"
+                          title="Delete Invoice"
                         >
                           <Trash2 size={15} />
                         </button>
@@ -214,16 +161,12 @@ export default function InvoicesPage() {
             </tbody>
           </table>
         </div>
-      </div>
+      </Card>
 
       {/* Modals */}
       {showBuilderModal && (
-        <InvoiceBuilderModal
-          isOpen={showBuilderModal}
-          onClose={() => setShowBuilderModal(false)}
-        />
+        <InvoiceBuilderModal isOpen={showBuilderModal} onClose={() => setShowBuilderModal(false)} />
       )}
-
       {selectedInvoiceForPDF && (
         <InvoicePDFModal
           invoice={selectedInvoiceForPDF}
