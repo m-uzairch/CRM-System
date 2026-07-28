@@ -2,8 +2,9 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Mail, Lock, User, Building2, LogIn, UserPlus, Sparkles, CheckCircle2, Shield, ArrowRight } from 'lucide-react';
+import { Mail, Lock, User, Building2, LogIn, UserPlus, Sparkles, CheckCircle2 } from 'lucide-react';
 import { useAuth } from '@/lib/auth/auth-context';
+import AnimatedDashboardMockup from '@/components/auth/AnimatedDashboardMockup';
 
 export default function LoginPage() {
   const { login, signup } = useAuth();
@@ -60,88 +61,45 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen w-full bg-slate-950 text-slate-100 flex flex-col lg:flex-row overflow-hidden font-sans">
-      {/* Left Column: Branding & Value Showcase */}
-      <div className="lg:w-1/2 p-8 sm:p-12 lg:p-16 flex flex-col justify-between relative bg-gradient-to-br from-indigo-950 via-slate-900 to-slate-950 border-b lg:border-b-0 lg:border-r border-slate-800">
-        <div className="relative z-10 space-y-6">
+    <div className="min-h-screen w-full bg-avex-radial text-slate-100 flex flex-col lg:flex-row overflow-hidden font-sans">
+      {/* Left Column: Form Container */}
+      <div className="lg:w-1/2 p-6 sm:p-12 lg:p-16 flex flex-col justify-between relative bg-[#0A0A0F]/80 backdrop-blur-xl border-b lg:border-b-0 lg:border-r border-white/[0.06]">
+        {/* Brand Header */}
+        <div className="relative z-10 space-y-6 max-w-md mx-auto lg:mx-0 w-full">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center text-white font-extrabold text-2xl shadow-lg shadow-indigo-500/20">
+            <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-blue-600 via-purple-600 to-pink-500 flex items-center justify-center text-white font-extrabold text-xl shadow-lg shadow-purple-500/30">
               A
             </div>
             <div>
-              <span className="text-2xl font-black tracking-tight text-white flex items-center gap-2">
-                Avex CRM
-                <span className="text-xs px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 font-bold uppercase">
+              <span className="text-xl font-extrabold tracking-tight text-white flex items-center gap-2">
+                AVEX CRM
+                <span className="text-[10px] px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30 font-bold uppercase tracking-wider">
                   PRO
                 </span>
               </span>
-              <p className="text-xs text-slate-400 font-medium">Modern All-Purpose CRM Suite</p>
+              <p className="text-xs text-slate-400 font-medium">Dark Premium SaaS Intelligence</p>
             </div>
           </div>
 
-          <div className="space-y-4 pt-6 max-w-lg">
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-tight text-white">
-              Manage clients, deals & invoices in one place.
+          <div className="space-y-2 pt-2">
+            <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
+              {tab === 'signin' ? 'Welcome back to Avex CRM' : 'Build your agency empire'}
             </h1>
-            <p className="text-sm sm:text-base text-slate-400 leading-relaxed">
-              Designed for freelancers, creative studios, and high-growth sales teams. Auto-summarize client activity with Google Gemini AI.
+            <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
+              Automate client management, sales pipelines, and Gemini AI insights in a sleek dark workspace.
             </p>
           </div>
 
-          {/* Feature Bullets */}
-          <div className="space-y-3 pt-4 max-w-md">
-            {[
-              'Unified Contacts & Companies Hub',
-              'Drag-and-Drop Sales Pipeline Kanban',
-              'Client Invoicing & Clean PDF Exporter',
-              'Gemini AI Activity Auto-Summaries & Lead Scoring',
-              'Isolated Multi-Tenant Per-Account Workspaces',
-            ].map((feat, idx) => (
-              <div key={idx} className="flex items-center gap-3 text-xs sm:text-sm text-slate-300 font-medium">
-                <div className="p-1 rounded-full bg-indigo-500/20 text-indigo-400 shrink-0">
-                  <CheckCircle2 size={16} />
-                </div>
-                <span>{feat}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Footer quote */}
-        <div className="relative z-10 pt-12 border-t border-slate-800/80 mt-8">
-          <p className="text-xs text-slate-500 font-medium">
-            © 2026 Avex CRM • Protected with Row Level Security & Encrypted Auth
-          </p>
-        </div>
-
-        {/* Glow background shapes */}
-        <div className="absolute left-0 bottom-0 w-96 h-96 bg-indigo-600/10 rounded-full blur-3xl pointer-events-none" />
-      </div>
-
-      {/* Right Column: Sign In & Sign Up Form Box */}
-      <div className="lg:w-1/2 p-6 sm:p-12 lg:p-16 flex items-center justify-center bg-slate-900/60 relative">
-        <div className="w-full max-w-md space-y-6 bg-slate-900/90 p-8 rounded-3xl border border-slate-800 shadow-2xl backdrop-blur-md">
-          {/* Header & Tabs */}
-          <div className="space-y-4">
-            <div>
-              <h2 className="text-2xl font-bold text-white tracking-tight">
-                {tab === 'signin' ? 'Welcome back' : 'Create your account'}
-              </h2>
-              <p className="text-xs text-slate-400 mt-1">
-                {tab === 'signin'
-                  ? 'Sign in with your company email to access your isolated workspace.'
-                  : 'Start fresh with your own isolated CRM dataset.'}
-              </p>
-            </div>
-
+          {/* Form Box */}
+          <div className="space-y-5 bg-[#151520] p-6 sm:p-8 rounded-3xl border border-white/[0.08] shadow-2xl backdrop-blur-md">
             {/* Tab Pill Switcher */}
-            <div className="flex items-center p-1 bg-slate-800/80 rounded-xl border border-slate-700/60">
+            <div className="flex items-center p-1 bg-[#0A0A0F] rounded-xl border border-white/[0.06]">
               <button
                 type="button"
                 onClick={() => { setTab('signin'); setErrorMsg(''); }}
                 className={`flex-1 py-2 rounded-lg text-xs font-bold transition-all ${
                   tab === 'signin'
-                    ? 'bg-indigo-600 text-white shadow-xs'
+                    ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-md'
                     : 'text-slate-400 hover:text-white'
                 }`}
               >
@@ -152,125 +110,148 @@ export default function LoginPage() {
                 onClick={() => { setTab('signup'); setErrorMsg(''); }}
                 className={`flex-1 py-2 rounded-lg text-xs font-bold transition-all ${
                   tab === 'signup'
-                    ? 'bg-indigo-600 text-white shadow-xs'
+                    ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-md'
                     : 'text-slate-400 hover:text-white'
                 }`}
               >
                 Create Account
               </button>
             </div>
-          </div>
 
-          {errorMsg && (
-            <div className="p-3.5 rounded-xl bg-rose-950/60 border border-rose-800 text-xs text-rose-300 font-medium">
-              {errorMsg}
-            </div>
-          )}
-
-          {successMsg && (
-            <div className="p-3.5 rounded-xl bg-emerald-950/60 border border-emerald-800 text-xs text-emerald-300 font-medium flex items-center gap-2">
-              <CheckCircle2 size={16} className="text-emerald-400 shrink-0" />
-              <span>{successMsg}</span>
-            </div>
-          )}
-
-          {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-4">
-            {tab === 'signup' && (
-              <>
-                <div>
-                  <label className="block text-xs font-semibold text-slate-300 mb-1">
-                    Your Full Name *
-                  </label>
-                  <div className="relative">
-                    <User size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
-                    <input
-                      type="text"
-                      required
-                      value={displayName}
-                      onChange={e => setDisplayName(e.target.value)}
-                      placeholder="e.g. Sarah Connor"
-                      className="w-full pl-10 pr-4 py-2.5 bg-slate-800/80 border border-slate-700 rounded-xl text-xs sm:text-sm text-white focus:outline-none focus:border-indigo-500"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-xs font-semibold text-slate-300 mb-1">
-                    Company Name
-                  </label>
-                  <div className="relative">
-                    <Building2 size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
-                    <input
-                      type="text"
-                      value={companyName}
-                      onChange={e => setCompanyName(e.target.value)}
-                      placeholder="e.g. Apex Innovations"
-                      className="w-full pl-10 pr-4 py-2.5 bg-slate-800/80 border border-slate-700 rounded-xl text-xs sm:text-sm text-white focus:outline-none focus:border-indigo-500"
-                    />
-                  </div>
-                </div>
-              </>
+            {errorMsg && (
+              <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/20 text-xs text-rose-300 font-medium">
+                {errorMsg}
+              </div>
             )}
 
-            <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1">
-                Company Email *
-              </label>
-              <div className="relative">
-                <Mail size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
-                <input
-                  type="email"
-                  required
-                  value={email}
-                  onChange={e => setEmail(e.target.value)}
-                  placeholder="alex@company.com"
-                  className="w-full pl-10 pr-4 py-2.5 bg-slate-800/80 border border-slate-700 rounded-xl text-xs sm:text-sm text-white focus:outline-none focus:border-indigo-500"
-                />
+            {successMsg && (
+              <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-xs text-emerald-300 font-medium flex items-center gap-2">
+                <CheckCircle2 size={16} className="text-emerald-400 shrink-0" />
+                <span>{successMsg}</span>
               </div>
-            </div>
+            )}
 
-            <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1">
-                Password *
-              </label>
-              <div className="relative">
-                <Lock size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
-                <input
-                  type="password"
-                  required
-                  value={password}
-                  onChange={e => setPassword(e.target.value)}
-                  placeholder="••••••••"
-                  className="w-full pl-10 pr-4 py-2.5 bg-slate-800/80 border border-slate-700 rounded-xl text-xs sm:text-sm text-white focus:outline-none focus:border-indigo-500"
-                />
+            {/* Form */}
+            <form onSubmit={handleSubmit} className="space-y-4">
+              {tab === 'signup' && (
+                <>
+                  <div>
+                    <label className="block text-xs font-semibold text-slate-300 mb-1">
+                      Full Name *
+                    </label>
+                    <div className="relative">
+                      <User size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+                      <input
+                        type="text"
+                        required
+                        value={displayName}
+                        onChange={e => setDisplayName(e.target.value)}
+                        placeholder="Sarah Connor"
+                        className="w-full pl-10 pr-4 py-2.5 bg-[#0A0A0F] border border-white/[0.08] rounded-xl text-xs sm:text-sm text-white focus:outline-none focus:border-purple-500 transition-colors"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-semibold text-slate-300 mb-1">
+                      Company Name
+                    </label>
+                    <div className="relative">
+                      <Building2 size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+                      <input
+                        type="text"
+                        value={companyName}
+                        onChange={e => setCompanyName(e.target.value)}
+                        placeholder="Apex Innovations"
+                        className="w-full pl-10 pr-4 py-2.5 bg-[#0A0A0F] border border-white/[0.08] rounded-xl text-xs sm:text-sm text-white focus:outline-none focus:border-purple-500 transition-colors"
+                      />
+                    </div>
+                  </div>
+                </>
+              )}
+
+              <div>
+                <label className="block text-xs font-semibold text-slate-300 mb-1">
+                  Company Email *
+                </label>
+                <div className="relative">
+                  <Mail size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+                  <input
+                    type="email"
+                    required
+                    value={email}
+                    onChange={e => setEmail(e.target.value)}
+                    placeholder="alex@avexagency.com"
+                    className="w-full pl-10 pr-4 py-2.5 bg-[#0A0A0F] border border-white/[0.08] rounded-xl text-xs sm:text-sm text-white focus:outline-none focus:border-purple-500 transition-colors"
+                  />
+                </div>
               </div>
-            </div>
 
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="w-full py-3 bg-indigo-600 hover:bg-indigo-700 active:scale-98 text-white font-bold text-xs sm:text-sm rounded-xl shadow-lg shadow-indigo-600/30 transition-all flex items-center justify-center gap-2 disabled:opacity-50 mt-2"
-            >
-              {tab === 'signin' ? <LogIn size={16} /> : <UserPlus size={16} />}
-              <span>{isLoading ? 'Authenticating...' : tab === 'signin' ? 'Sign In to Workspace' : 'Create Isolated Account'}</span>
-            </button>
-          </form>
+              <div>
+                <label className="block text-xs font-semibold text-slate-300 mb-1">
+                  Password *
+                </label>
+                <div className="relative">
+                  <Lock size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+                  <input
+                    type="password"
+                    required
+                    value={password}
+                    onChange={e => setPassword(e.target.value)}
+                    placeholder="••••••••"
+                    className="w-full pl-10 pr-4 py-2.5 bg-[#0A0A0F] border border-white/[0.08] rounded-xl text-xs sm:text-sm text-white focus:outline-none focus:border-purple-500 transition-colors"
+                  />
+                </div>
+              </div>
 
-          {/* Quick Demo Guest Login Divider */}
-          <div className="pt-4 border-t border-slate-800 space-y-3">
-            <div className="text-center">
-              <span className="text-[11px] text-slate-400 uppercase tracking-wider font-semibold">Or Explore Instantly</span>
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="w-full py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 active:scale-98 text-white font-bold text-xs sm:text-sm rounded-xl shadow-lg shadow-purple-600/30 transition-all flex items-center justify-center gap-2 disabled:opacity-50 mt-2"
+              >
+                {tab === 'signin' ? <LogIn size={16} /> : <UserPlus size={16} />}
+                <span>{isLoading ? 'Authenticating...' : tab === 'signin' ? 'Sign In to Workspace' : 'Create Isolated Account'}</span>
+              </button>
+            </form>
+
+            {/* Quick Demo Guest Login */}
+            <div className="pt-3 border-t border-white/[0.06] space-y-2">
+              <button
+                onClick={handleDemoLogin}
+                disabled={isLoading}
+                className="w-full py-2.5 bg-white/[0.04] hover:bg-white/[0.08] text-slate-200 font-semibold text-xs rounded-xl border border-white/[0.08] transition-colors flex items-center justify-center gap-2"
+              >
+                <Sparkles size={14} className="text-amber-400" />
+                <span>Explore Demo Workspace Instantly</span>
+              </button>
             </div>
-            <button
-              onClick={handleDemoLogin}
-              disabled={isLoading}
-              className="w-full py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-xs rounded-xl border border-slate-700 transition-colors flex items-center justify-center gap-2"
-            >
-              <Sparkles size={14} className="text-amber-400" />
-              <span>Continue with Demo Agency Workspace</span>
-            </button>
           </div>
+        </div>
+
+        {/* Footer info */}
+        <div className="relative z-10 pt-8 border-t border-white/[0.06] mt-8 text-center lg:text-left">
+          <p className="text-[11px] text-slate-400">
+            © 2026 AVEX CRM • Encrypted Row Level Security Workspaces
+          </p>
+        </div>
+      </div>
+
+      {/* Right Column: Animated Live Dashboard Mockup Preview */}
+      <div className="lg:w-1/2 p-6 sm:p-12 lg:p-16 flex items-center justify-center relative bg-[#060609]/60">
+        {/* Soft Radial Backlight Glow */}
+        <div className="absolute inset-0 bg-gradient-to-tr from-blue-600/10 via-purple-600/15 to-pink-500/10 blur-3xl pointer-events-none" />
+        
+        <div className="relative z-10 w-full">
+          <div className="text-center mb-6 max-w-sm mx-auto space-y-1">
+            <span className="text-[11px] font-extrabold uppercase tracking-wider text-purple-400 bg-purple-500/10 px-3 py-1 rounded-full border border-purple-500/20 inline-block">
+              Live Mockup Experience
+            </span>
+            <p className="text-xs text-slate-400">
+              Interactive preview of your future command center
+            </p>
+          </div>
+
+          <AnimatedDashboardMockup />
         </div>
       </div>
     </div>

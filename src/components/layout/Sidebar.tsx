@@ -4,7 +4,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import {
   LayoutDashboard,
   Users,
@@ -15,17 +15,62 @@ import {
   Settings,
   ChevronLeft,
   ChevronRight,
-  Zap,
+  MessageSquare,
+  Mail,
+  PhoneCall,
+  FileCode,
+  Sparkles,
+  Bot,
+  PieChart,
+  Calendar,
 } from 'lucide-react';
+import { useAuth } from '@/lib/auth/auth-context';
 
-const navItems = [
-  { name: 'Dashboard', href: '/', icon: LayoutDashboard, badge: null },
-  { name: 'Contacts', href: '/contacts', icon: Users, badge: null },
-  { name: 'Deals & Pipeline', href: '/deals', icon: Kanban, badge: 'Live' },
-  { name: 'Tasks & Reminders', href: '/tasks', icon: CheckSquare, badge: null },
-  { name: 'Invoices', href: '/invoices', icon: FileText, badge: null },
-  { name: 'Analytics', href: '/analytics', icon: BarChart3, badge: null },
-  { name: 'Settings', href: '/settings', icon: Settings, badge: null },
+interface NavSection {
+  title: string;
+  items: {
+    name: string;
+    href: string;
+    icon: React.ElementType;
+    badge?: string | null;
+  }[];
+}
+
+const navSections: NavSection[] = [
+  {
+    title: 'Management',
+    items: [
+      { name: 'Dashboard', href: '/', icon: LayoutDashboard },
+      { name: 'Leads', href: '/contacts', icon: Users, badge: 'Hot' },
+      { name: 'Customers', href: '/contacts?tab=clients', icon: Users },
+      { name: 'Deals', href: '/deals', icon: Kanban, badge: 'Live' },
+      { name: 'Tasks', href: '/tasks', icon: CheckSquare },
+      { name: 'Appointments', href: '/tasks?view=calendar', icon: Calendar },
+    ],
+  },
+  {
+    title: 'Communication',
+    items: [
+      { name: 'Messages', href: '/contacts?action=message', icon: MessageSquare },
+      { name: 'Emails', href: '/contacts?action=email', icon: Mail },
+      { name: 'Calls', href: '/contacts?action=call', icon: PhoneCall },
+    ],
+  },
+  {
+    title: 'Documents',
+    items: [
+      { name: 'Documents', href: '/invoices', icon: FileText },
+      { name: 'AI Extractor', href: '/analytics?tab=extractor', icon: Bot, badge: 'AI' },
+    ],
+  },
+  {
+    title: 'Analytics',
+    items: [
+      { name: 'Reports', href: '/analytics', icon: PieChart },
+      { name: 'Analytics', href: '/analytics?tab=performance', icon: BarChart3 },
+      { name: 'Settings', href: '/settings', icon: Settings },
+    ],
+  },
 ];
 
 interface SidebarProps {
@@ -36,177 +81,178 @@ interface SidebarProps {
 export default function Sidebar({ mobileOpen = false, onCloseMobile }: SidebarProps) {
   const pathname = usePathname();
   const [collapsed, setCollapsed] = useState(false);
+  const { user } = useAuth();
 
   const sidebarContent = (
-    <div className="flex flex-col h-full bg-white dark:bg-slate-900 select-none">
+    <div className="flex flex-col h-full bg-[#0A0A0F] border-r border-white/[0.06] select-none text-slate-300">
       {/* Brand Header */}
-      <div className={`flex items-center h-16 border-b border-slate-100 dark:border-slate-800/80 transition-all ${
-        collapsed ? 'justify-center px-2' : 'justify-between px-4'
-      }`}>
+      <div
+        className={`flex items-center h-16 border-b border-white/[0.06] transition-all px-4 ${
+          collapsed ? 'justify-center px-2' : 'justify-between'
+        }`}
+      >
         <Link
           href="/"
           onClick={onCloseMobile}
-          className="flex items-center gap-3 overflow-hidden"
+          className="flex items-center gap-3 overflow-hidden group"
         >
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center text-white font-bold text-xl shadow-md shadow-indigo-500/20 shrink-0">
+          <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-600 via-purple-600 to-pink-500 flex items-center justify-center text-white font-extrabold text-lg shadow-lg shadow-purple-500/25 shrink-0 group-hover:scale-105 transition-transform">
             A
           </div>
           {!collapsed && (
-            <motion.div
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -10 }}
-              className="flex flex-col min-w-0"
-            >
-              <span className="font-bold text-lg text-slate-900 dark:text-white tracking-tight flex items-center gap-1.5 whitespace-nowrap">
-                Avex CRM
-                <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-indigo-50 dark:bg-indigo-950/70 text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-800 font-semibold">
+            <div className="flex flex-col min-w-0">
+              <span className="font-extrabold text-base tracking-tight text-white flex items-center gap-1.5 whitespace-nowrap">
+                AVEX <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">CRM</span>
+                <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30 font-bold uppercase tracking-wider">
                   PRO
                 </span>
               </span>
-              <span className="text-xs text-slate-400 dark:text-slate-500 font-medium whitespace-nowrap">
-                Agency & Sales Suite
+              <span className="text-[10px] text-slate-400 font-medium whitespace-nowrap">
+                Sales & Agency Intelligence
               </span>
-            </motion.div>
+            </div>
           )}
         </Link>
 
-        {/* Desktop Toggle Collapse Button */}
+        {/* Desktop Collapse Toggle */}
         <button
           onClick={() => setCollapsed(!collapsed)}
-          className={`hidden md:block p-1.5 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors ${
-            collapsed ? 'absolute -right-3 top-5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-md z-40' : ''
+          className={`hidden md:flex items-center justify-center p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/[0.06] transition-colors ${
+            collapsed ? 'absolute -right-3 top-5 bg-[#151520] border border-white/[0.08] shadow-lg z-40' : ''
           }`}
           title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
         >
-          {collapsed ? <ChevronRight size={14} /> : <ChevronLeft size={18} />}
+          {collapsed ? <ChevronRight size={14} /> : <ChevronLeft size={16} />}
         </button>
 
         {/* Mobile Close Button */}
         {onCloseMobile && (
           <button
             onClick={onCloseMobile}
-            className="md:hidden p-2 rounded-xl text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
+            className="md:hidden p-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/[0.06]"
           >
             <ChevronLeft size={20} />
           </button>
         )}
       </div>
 
-      {/* Navigation Links */}
-      <nav className="flex-1 px-2.5 py-4 space-y-1.5 overflow-y-auto overflow-x-hidden">
-        {navItems.map((item) => {
-          const isActive = pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href));
-          const Icon = item.icon;
+      {/* Navigation Links Grouped by Section */}
+      <nav className="flex-1 px-3 py-4 space-y-5 overflow-y-auto overflow-x-hidden">
+        {navSections.map((section) => (
+          <div key={section.title} className="space-y-1">
+            {!collapsed && (
+              <h3 className="px-3 text-[10px] font-bold uppercase tracking-wider text-slate-400/80 mb-1.5">
+                {section.title}
+              </h3>
+            )}
 
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              onClick={onCloseMobile}
-              title={collapsed ? item.name : undefined}
-              className={`relative flex items-center gap-3.5 rounded-xl font-medium text-sm transition-all duration-150 group ${
-                collapsed ? 'justify-center p-3' : 'px-3 py-2.5'
-              } ${
-                isActive
-                  ? 'text-indigo-600 dark:text-indigo-400 font-semibold bg-indigo-50/80 dark:bg-indigo-950/50'
-                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800/60'
-              }`}
-            >
-              {/* Active Indicator Bar */}
-              {isActive && (
-                <motion.div
-                  layoutId="activeTabIndicator"
-                  className="absolute left-0 top-2 bottom-2 w-1 bg-indigo-600 dark:bg-indigo-400 rounded-r-full"
-                />
-              )}
+            {section.items.map((item) => {
+              const isActive =
+                pathname === item.href ||
+                (item.href !== '/' && item.href.split('?')[0] !== '/' && pathname === item.href.split('?')[0]);
+              const Icon = item.icon;
 
-              <Icon
-                size={20}
-                className={`shrink-0 transition-colors ${
-                  isActive
-                    ? 'text-indigo-600 dark:text-indigo-400'
-                    : 'text-slate-400 group-hover:text-slate-600 dark:group-hover:text-slate-300'
-                }`}
-              />
-
-              {!collapsed && (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  className="flex items-center justify-between w-full min-w-0"
+              return (
+                <Link
+                  key={item.name + item.href}
+                  href={item.href}
+                  onClick={onCloseMobile}
+                  title={collapsed ? item.name : undefined}
+                  className={`relative flex items-center gap-3 rounded-xl font-medium text-xs transition-all duration-150 group ${
+                    collapsed ? 'justify-center p-2.5' : 'px-3 py-2.5'
+                  } ${
+                    isActive
+                      ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold shadow-lg shadow-blue-600/20'
+                      : 'text-slate-400 hover:text-white hover:bg-white/[0.05]'
+                  }`}
                 >
-                  <span className="truncate">{item.name}</span>
-                  {item.badge && (
-                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 font-semibold">
-                      {item.badge}
-                    </span>
+                  <Icon
+                    size={17}
+                    className={`shrink-0 transition-transform ${
+                      isActive ? 'text-white scale-105' : 'text-slate-400 group-hover:text-slate-200'
+                    }`}
+                  />
+
+                  {!collapsed && (
+                    <div className="flex items-center justify-between w-full min-w-0">
+                      <span className="truncate">{item.name}</span>
+                      {item.badge && (
+                        <span
+                          className={`text-[9px] px-1.5 py-0.5 rounded-full font-bold uppercase tracking-wide ${
+                            item.badge === 'AI'
+                              ? 'bg-purple-500/30 text-purple-300 border border-purple-500/40'
+                              : item.badge === 'Hot'
+                              ? 'bg-rose-500/20 text-rose-300 border border-rose-500/30'
+                              : 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
+                          }`}
+                        >
+                          {item.badge}
+                        </span>
+                      )}
+                    </div>
                   )}
-                </motion.div>
-              )}
-            </Link>
-          );
-        })}
+                </Link>
+              );
+            })}
+          </div>
+        ))}
       </nav>
 
-      {/* AI Assistant Banner Card */}
-      {!collapsed && (
-        <div className="p-3 m-3 rounded-2xl bg-gradient-to-br from-indigo-500/10 via-purple-500/10 to-pink-500/10 border border-indigo-100 dark:border-indigo-900/50 relative overflow-hidden shrink-0">
-          <div className="flex items-center gap-2 mb-1.5">
-            <div className="p-1 rounded-lg bg-indigo-500 text-white">
-              <Zap size={14} />
-            </div>
-            <span className="text-xs font-semibold text-slate-800 dark:text-slate-200">
-              Gemini AI Active
-            </span>
+      {/* User Profile Pinned at Bottom */}
+      <div className="p-3 border-t border-white/[0.06] bg-[#0D0D14]">
+        <div
+          className={`flex items-center gap-3 p-2 rounded-2xl hover:bg-white/[0.04] transition-colors ${
+            collapsed ? 'justify-center' : ''
+          }`}
+        >
+          <div className="relative shrink-0">
+            <img
+              src={user?.avatarUrl || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100'}
+              alt="User Avatar"
+              className="w-9 h-9 rounded-full object-cover ring-2 ring-purple-500/40"
+            />
+            {/* Online Status Dot */}
+            <span className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-2 ring-[#0D0D14]" />
           </div>
-          <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
-            Auto-summarize client logs & score deal probability automatically.
-          </p>
+
+          {!collapsed && (
+            <div className="flex flex-col min-w-0">
+              <span className="text-xs font-bold text-white truncate leading-tight">
+                {user?.displayName || 'Alex Avex'}
+              </span>
+              <span className="text-[10px] text-slate-400 truncate">
+                {user?.email || 'alex@avexagency.com'}
+              </span>
+            </div>
+          )}
         </div>
-      )}
+      </div>
     </div>
   );
 
   return (
     <>
-      {/* Desktop Sidebar (hidden on mobile) */}
-      <motion.aside
-        animate={{ width: collapsed ? 76 : 260 }}
-        transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-        className="hidden md:flex relative flex-col h-full border-r border-slate-200/80 dark:border-slate-800 z-30 shadow-xs shrink-0"
+      {/* Desktop Fixed Sidebar */}
+      <aside
+        className={`hidden md:flex relative flex-col h-full z-30 transition-all duration-300 shrink-0 ${
+          collapsed ? 'w-20' : 'w-64'
+        }`}
       >
         {sidebarContent}
-      </motion.aside>
+      </aside>
 
-      {/* Mobile Drawer (visible when mobileOpen is true) */}
-      <AnimatePresence>
-        {mobileOpen && (
-          <div className="fixed inset-0 z-50 md:hidden">
-            {/* Backdrop */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={onCloseMobile}
-              className="absolute inset-0 bg-slate-950/60 backdrop-blur-xs"
-            />
-
-            {/* Mobile Drawer Panel */}
-            <motion.aside
-              initial={{ x: '-100%' }}
-              animate={{ x: 0 }}
-              exit={{ x: '-100%' }}
-              transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-              className="absolute left-0 top-0 bottom-0 w-72 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 shadow-2xl z-10 flex flex-col"
-            >
-              {sidebarContent}
-            </motion.aside>
-          </div>
-        )}
-      </AnimatePresence>
+      {/* Mobile Sidebar Overlay */}
+      {mobileOpen && (
+        <div className="fixed inset-0 z-50 md:hidden flex">
+          <div
+            onClick={onCloseMobile}
+            className="fixed inset-0 bg-black/70 backdrop-blur-xs"
+          />
+          <aside className="relative w-72 max-w-[80vw] h-full bg-[#0A0A0F] border-r border-white/[0.06] z-10">
+            {sidebarContent}
+          </aside>
+        </div>
+      )}
     </>
   );
 }
-
