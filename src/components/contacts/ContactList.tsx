@@ -1,7 +1,8 @@
 'use me';
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { Search, Filter, Plus, Download, Eye, Trash2, Edit } from 'lucide-react';
 import { useCRM } from '@/lib/store/crm-context';
 import { Contact } from '@/lib/types';
@@ -12,6 +13,7 @@ import Card from '@/components/ui/Card';
 
 export default function ContactList() {
   const { contacts, companies, deleteContact } = useCRM();
+  const searchParams = useSearchParams();
 
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedStatus, setSelectedStatus] = useState<string>('all');
@@ -22,6 +24,16 @@ export default function ContactList() {
   const [selectedContactForDetail, setSelectedContactForDetail] = useState<Contact | null>(null);
   const [selectedContactForEdit, setSelectedContactForEdit] = useState<Contact | null>(null);
   const [showCreateModal, setShowCreateModal] = useState(false);
+
+  // Sync status filter from query param tab (e.g. ?tab=client or ?tab=lead)
+  useEffect(() => {
+    const tabParam = searchParams ? searchParams.get('tab') : null;
+    if (tabParam === 'client' || tabParam === 'clients') {
+      setSelectedStatus('client');
+    } else if (tabParam === 'lead' || tabParam === 'leads') {
+      setSelectedStatus('lead');
+    }
+  }, [searchParams]);
 
   // Extract all unique tags
   const allTags = Array.from(new Set(contacts.flatMap((c) => c.tags || [])));
@@ -150,7 +162,7 @@ export default function ContactList() {
         </div>
       </Card>
 
-      {/* Mobile Card Grid (hidden on desktop) */}
+      {/* Mobile Card Grid */}
       <div className="grid grid-cols-1 gap-3 md:hidden">
         {filteredContacts.length === 0 ? (
           <div className="p-8 text-center text-xs text-slate-400 bg-[#151520] rounded-2xl border border-white/[0.06]">

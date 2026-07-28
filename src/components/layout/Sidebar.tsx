@@ -3,8 +3,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { motion } from 'framer-motion';
+import { usePathname, useSearchParams } from 'next/navigation';
 import {
   LayoutDashboard,
   Users,
@@ -18,8 +17,6 @@ import {
   MessageSquare,
   Mail,
   PhoneCall,
-  FileCode,
-  Sparkles,
   Bot,
   PieChart,
   Calendar,
@@ -41,8 +38,8 @@ const navSections: NavSection[] = [
     title: 'Management',
     items: [
       { name: 'Dashboard', href: '/', icon: LayoutDashboard },
-      { name: 'Leads', href: '/contacts', icon: Users, badge: 'Hot' },
-      { name: 'Customers', href: '/contacts?tab=clients', icon: Users },
+      { name: 'Leads', href: '/contacts?tab=lead', icon: Users, badge: 'Hot' },
+      { name: 'Customers', href: '/contacts?tab=client', icon: Users },
       { name: 'Deals', href: '/deals', icon: Kanban, badge: 'Live' },
       { name: 'Tasks', href: '/tasks', icon: CheckSquare },
       { name: 'Appointments', href: '/tasks?view=calendar', icon: Calendar },
@@ -80,8 +77,38 @@ interface SidebarProps {
 
 export default function Sidebar({ mobileOpen = false, onCloseMobile }: SidebarProps) {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const [collapsed, setCollapsed] = useState(false);
   const { user } = useAuth();
+
+  const isItemActive = (itemHref: string) => {
+    const searchString = searchParams ? searchParams.toString() : '';
+    const currentFullPath = searchString ? `${pathname}?${searchString}` : pathname;
+
+    // Exact full path match (including query params)
+    if (currentFullPath === itemHref) return true;
+
+    // If item.href contains query parameters (e.g. /contacts?tab=client), require exact match
+    if (itemHref.includes('?')) {
+      return currentFullPath === itemHref;
+    }
+
+    // If item.href has NO query parameters (e.g. /deals):
+    if (pathname === itemHref) {
+      // If we are on base pathname but query parameters exist, don't highlight non-query items
+      if (searchString) {
+        return false;
+      }
+      return true;
+    }
+
+    // Sub-route match (e.g. /deals/123 -> /deals)
+    if (itemHref !== '/' && pathname.startsWith(itemHref + '/')) {
+      return true;
+    }
+
+    return false;
+  };
 
   const sidebarContent = (
     <div className="flex flex-col h-full bg-[#0A0A0F] border-r border-white/[0.06] select-none text-slate-300">
@@ -147,9 +174,7 @@ export default function Sidebar({ mobileOpen = false, onCloseMobile }: SidebarPr
             )}
 
             {section.items.map((item) => {
-              const isActive =
-                pathname === item.href ||
-                (item.href !== '/' && item.href.split('?')[0] !== '/' && pathname === item.href.split('?')[0]);
+              const active = isItemActive(item.href);
               const Icon = item.icon;
 
               return (
@@ -161,7 +186,7 @@ export default function Sidebar({ mobileOpen = false, onCloseMobile }: SidebarPr
                   className={`relative flex items-center gap-3 rounded-xl font-medium text-xs transition-all duration-150 group ${
                     collapsed ? 'justify-center p-2.5' : 'px-3 py-2.5'
                   } ${
-                    isActive
+                    active
                       ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold shadow-lg shadow-blue-600/20'
                       : 'text-slate-400 hover:text-white hover:bg-white/[0.05]'
                   }`}
@@ -169,7 +194,7 @@ export default function Sidebar({ mobileOpen = false, onCloseMobile }: SidebarPr
                   <Icon
                     size={17}
                     className={`shrink-0 transition-transform ${
-                      isActive ? 'text-white scale-105' : 'text-slate-400 group-hover:text-slate-200'
+                      active ? 'text-white scale-105' : 'text-slate-400 group-hover:text-slate-200'
                     }`}
                   />
 
