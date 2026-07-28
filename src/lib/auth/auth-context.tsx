@@ -105,11 +105,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       if (savedSession) {
         setUser(JSON.parse(savedSession));
       } else {
-        setUser(defaultUser);
-        localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(defaultUser));
+        setUser(null);
       }
     } catch {
-      setUser(defaultUser);
+      setUser(null);
     }
   };
 
@@ -176,6 +175,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         } else {
           return { success: false, error: 'Incorrect password.' };
         }
+      } else if (email.toLowerCase() === 'alex@avexagency.com') {
+        saveSession(defaultUser);
+        return { success: true };
       } else {
         // Create demo workspace user on the fly for any email
         const newUser: UserProfile = {
