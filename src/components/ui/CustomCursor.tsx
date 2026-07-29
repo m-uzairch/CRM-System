@@ -1,24 +1,22 @@
 'use me';
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import { motion, useSpring } from 'framer-motion';
+import React, { useEffect, useRef, useState } from 'react';
 
 export default function CustomCursor() {
   const [isVisible, setIsVisible] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
-  // Smooth springs for cursor dot (fast responsiveness)
-  const cursorX = useSpring(-100, { stiffness: 600, damping: 35 });
-  const cursorY = useSpring(-100, { stiffness: 600, damping: 35 });
+  const dotRef = useRef<HTMLDivElement>(null);
+  const ringRef = useRef<HTMLDivElement>(null);
 
-  // Smooth springs for background glow (trailing spotlight effect)
-  const glowX = useSpring(-200, { stiffness: 150, damping: 25 });
-  const glowY = useSpring(-200, { stiffness: 150, damping: 25 });
+  const pos = useRef({ x: -100, y: -100 });
+  const ringPos = useRef({ x: -100, y: -100 });
+  const targetPos = useRef({ x: -100, y: -100 });
+  const rafId = useRef<number | null>(null);
 
   useEffect(() => {
-    // Check for touch devices or prefers-reduced-motion
     const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -27,20 +25,29 @@ export default function CustomCursor() {
       return;
     }
 
-    // Add class to body to hide standard cursor on desktop
     document.body.classList.add('custom-cursor-active');
 
-    let animationFrameId: number;
+    const updatePosition = () => {
+      // Direct lerp calculation for ultra-smooth 60fps+ performance without frame drops
+      ringPos.current.x += (targetPos.current.x - ringPos.current.x) * 0.22;
+      ringPos.current.y += (targetPos.current.y - ringPos.current.y) * 0.22;
+      pos.current.x += (targetPos.current.x - pos.current.x) * 0.75;
+      pos.current.y += (targetPos.current.y - pos.current.y) * 0.75;
+
+      if (dotRef.current) {
+        dotRef.current.style.transform = `translate3d(${pos.current.x}px, ${pos.current.y}px, 0px) translate(-50%, -50%)`;
+      }
+      if (ringRef.current) {
+        ringRef.current.style.transform = `translate3d(${ringPos.current.x}px, ${ringPos.current.y}px, 0px) translate(-50%, -50%)`;
+      }
+
+      rafId.current = requestAnimationFrame(updatePosition);
+    };
 
     const handleMouseMove = (e: MouseEvent) => {
       if (!isVisible) setIsVisible(true);
-      
-      animationFrameId = requestAnimationFrame(() => {
-        cursorX.set(e.clientX);
-        cursorY.set(e.clientY);
-        glowX.set(e.clientX);
-        glowY.set(e.clientY);
-      });
+      targetPos.current.x = e.clientX;
+      targetPos.current.y = e.clientY;
     };
 
     const handleMouseLeave = () => setIsVisible(false);
@@ -56,12 +63,12 @@ export default function CustomCursor() {
         target.tagName === 'INPUT' ||
         target.tagName === 'SELECT' ||
         target.tagName === 'TEXTAREA' ||
-        target.closest('button') ||
-        target.closest('a') ||
+        !!target.closest('button') ||
+        !!target.closest('a') ||
         target.getAttribute('role') === 'button' ||
         target.classList.contains('interactive-hover');
 
-      setIsHovered(!!isInteractive);
+      setIsHovered(isInteractive);
     };
 
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
@@ -69,51 +76,42 @@ export default function CustomCursor() {
     document.addEventListener('mouseenter', handleMouseEnter);
     document.addEventListener('mouseover', handleMouseOver, { passive: true });
 
+    rafId.current = requestAnimationFrame(updatePosition);
+
     return () => {
       document.body.classList.remove('custom-cursor-active');
       window.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseleave', handleMouseLeave);
       document.removeEventListener('mouseenter', handleMouseEnter);
       document.removeEventListener('mouseover', handleMouseOver);
-      if (animationFrameId) cancelAnimationFrame(animationFrameId);
+      if (rafId.current) cancelAnimationFrame(rafId.current);
     };
-  }, [cursorX, cursorY, glowX, glowY, isVisible]);
+  }, [isVisible]);
 
   if (isDisabled || !isVisible) return null;
 
   return (
     <div className="pointer-events-none fixed inset-0 z-[999999] overflow-hidden select-none">
-      {/* Outer Stroke Circle Ring (Smooth trailing follower) */}
-      <motion.div
-        style={{
-          x: glowX,
-          y: glowY,
-          translateX: '-50%',
-          translateY: '-50%',
-        }}
-        animate={{
-          scale: isHovered ? 1.6 : 1,
-          borderColor: isHovered ? 'rgba(255, 255, 255, 0.9)' : 'rgba(255, 255, 255, 0.4)',
-        }}
-        transition={{ type: 'spring', stiffness: 350, damping: 24 }}
-        className="absolute w-8 h-8 rounded-full border border-white/50 shadow-xs"
+      {/* Outer Smooth Trailing Follower Ring with subtle blue-purple glow */}
+      <div
+        ref={ringRef}
+        className={`absolute w-8 h-8 rounded-full border transition-all duration-150 ease-out ${
+          isHovered
+            ? 'scale-150 border-purple-400/90 bg-purple-500/10 shadow-[0_0_15px_rgba(168,85,247,0.35)]'
+            : 'scale-100 border-blue-400/40 bg-blue-500/5 shadow-[0_0_8px_rgba(59,130,246,0.15)]'
+        }`}
+        style={{ willChange: 'transform' }}
       />
 
-      {/* Primary Small Cursor Pointer Dot */}
-      <motion.div
-        style={{
-          x: cursorX,
-          y: cursorY,
-          translateX: '-50%',
-          translateY: '-50%',
-        }}
-        animate={{
-          scale: isHovered ? 1.2 : 1,
-          opacity: 1,
-        }}
-        transition={{ type: 'spring', stiffness: 500, damping: 28 }}
-        className="absolute w-1.5 h-1.5 rounded-full bg-white shadow-sm ring-1 ring-black/40"
+      {/* Primary Precision Cursor Dot */}
+      <div
+        ref={dotRef}
+        className={`absolute w-1.5 h-1.5 rounded-full transition-transform duration-100 ease-out ${
+          isHovered ? 'scale-125 bg-white shadow-md' : 'scale-100 bg-white shadow-sm'
+        }`}
+        style={{ willChange: 'transform' }}
       />
     </div>
   );
 }
+

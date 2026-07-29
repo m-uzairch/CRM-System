@@ -13,10 +13,10 @@ import Card from '@/components/ui/Card';
 
 const STAGES: { id: DealStage; label: string; color: string }[] = [
   { id: 'new', label: 'New Lead', color: 'border-t-blue-500' },
-  { id: 'qualified', label: 'Qualified', color: 'border-t-purple-500' },
-  { id: 'proposal', label: 'Proposal Sent', color: 'border-t-pink-500' },
+  { id: 'qualified', label: 'Qualified', color: 'border-t-indigo-500' },
+  { id: 'proposal', label: 'Proposal Sent', color: 'border-t-purple-500' },
   { id: 'negotiation', label: 'In Negotiation', color: 'border-t-amber-500' },
-  { id: 'won', label: 'Won', color: 'border-t-emerald-500' },
+  { id: 'won', label: 'Won', color: 'border-t-violet-500' },
   { id: 'lost', label: 'Lost', color: 'border-t-rose-500' },
 ];
 

@@ -1,12 +1,11 @@
 'use me';
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import { motion, HTMLMotionProps } from 'framer-motion';
+import React from 'react';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
-export interface CardProps extends Omit<HTMLMotionProps<'div'>, 'variant'> {
+export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
   variant?: 'default' | 'ai' | 'glass' | 'subtle';
   interactive?: boolean;
@@ -22,75 +21,37 @@ export default function Card({
   glowColor = 'none',
   ...props
 }: CardProps) {
-  const [reducedMotion, setReducedMotion] = useState(false);
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    setReducedMotion(mediaQuery.matches);
-
-    const handleChange = (e: MediaQueryListEvent) => setReducedMotion(e.matches);
-    mediaQuery.addEventListener('change', handleChange);
-    return () => mediaQuery.removeEventListener('change', handleChange);
-  }, []);
-
-  const getGlowShadow = () => {
-    return '0 20px 35px -10px rgba(0, 0, 0, 0.8), 0 0 20px 0px rgba(255, 255, 255, 0.08)';
-  };
-
   const getVariantStyles = () => {
     switch (variant) {
       case 'ai':
-        return 'bg-zinc-900 border-zinc-700 shadow-xl shadow-black/60';
+        return 'bg-[#161622] border-purple-500/20 shadow-xl shadow-black/60';
       case 'glass':
-        return 'bg-zinc-900/90 backdrop-blur-md border-zinc-800';
+        return 'bg-[#14141E]/90 backdrop-blur-md border-white/[0.08]';
       case 'subtle':
-        return 'bg-zinc-950 border-zinc-800';
+        return 'bg-[#0E0E16] border-white/[0.06]';
       case 'default':
       default:
-        return 'bg-zinc-900 border-zinc-800 shadow-xl shadow-black/50';
+        return 'bg-[#14141E] border-white/[0.08] shadow-xl shadow-black/50';
     }
   };
 
+  const interactiveStyles = interactive
+    ? 'transition-all duration-200 ease-out hover:border-purple-500/40 hover:-translate-y-0.5 hover:shadow-2xl hover:shadow-purple-500/10'
+    : '';
+
   const baseClasses = twMerge(
     clsx(
-      'rounded-2xl border transition-colors duration-200 overflow-hidden relative',
+      'rounded-2xl border overflow-hidden relative',
       getVariantStyles(),
+      interactiveStyles,
       className
     )
   );
 
-  if (!interactive) {
-    return (
-      <div className={baseClasses} {...(props as React.HTMLAttributes<HTMLDivElement>)}>
-        {children}
-      </div>
-    );
-  }
-
   return (
-    <motion.div
-      className={baseClasses}
-      whileHover={
-        reducedMotion
-          ? {
-              borderColor: 'rgba(255, 255, 255, 0.3)',
-            }
-          : {
-              y: -5,
-              scale: 1.015,
-              borderColor: 'rgba(255, 255, 255, 0.3)',
-              boxShadow: getGlowShadow(),
-            }
-      }
-      transition={{
-        type: 'spring',
-        stiffness: 400,
-        damping: 25,
-        mass: 0.8,
-      }}
-      {...props}
-    >
+    <div className={baseClasses} {...props}>
       {children}
-    </motion.div>
+    </div>
   );
 }
+

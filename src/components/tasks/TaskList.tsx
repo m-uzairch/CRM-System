@@ -44,7 +44,7 @@ export default function TaskList() {
             className="p-1 text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors shrink-0"
           >
             {isCompleted ? (
-              <CheckSquare size={20} className="text-emerald-600 dark:text-emerald-400" />
+              <CheckSquare size={20} className="text-purple-400" />
             ) : (
               <Square size={20} />
             )}

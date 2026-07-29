@@ -47,56 +47,56 @@ export function formatTimeAgo(dateString?: string): string {
 export function getStageBadgeStyle(stage: DealStage): string {
   switch (stage) {
     case 'new':
-      return 'bg-sky-100 text-sky-700 dark:bg-sky-950/60 dark:text-sky-300 border-sky-200 dark:border-sky-800';
+      return 'bg-sky-500/10 text-sky-300 border-sky-500/30';
     case 'qualified':
-      return 'bg-indigo-100 text-indigo-700 dark:bg-indigo-950/60 dark:text-indigo-300 border-indigo-200 dark:border-indigo-800';
+      return 'bg-indigo-500/10 text-indigo-300 border-indigo-500/30';
     case 'proposal':
-      return 'bg-purple-100 text-purple-700 dark:bg-purple-950/60 dark:text-purple-300 border-purple-200 dark:border-purple-800';
+      return 'bg-blue-500/10 text-blue-300 border-blue-500/30';
     case 'negotiation':
-      return 'bg-amber-100 text-amber-700 dark:bg-amber-950/60 dark:text-amber-300 border-amber-200 dark:border-amber-800';
+      return 'bg-amber-500/10 text-amber-300 border-amber-500/30';
     case 'won':
-      return 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800';
+      return 'bg-purple-500/15 text-purple-300 border-purple-500/30';
     case 'lost':
-      return 'bg-rose-100 text-rose-700 dark:bg-rose-950/60 dark:text-rose-300 border-rose-200 dark:border-rose-800';
+      return 'bg-rose-500/10 text-rose-300 border-rose-500/30';
     default:
-      return 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300';
+      return 'bg-slate-800 text-slate-300 border-slate-700';
   }
 }
 
 export function getContactStatusStyle(status: ContactStatus): string {
   switch (status) {
     case 'lead':
-      return 'bg-blue-100 text-blue-700 dark:bg-blue-950/60 dark:text-blue-300 border-blue-200 dark:border-blue-800';
+      return 'bg-blue-500/10 text-blue-300 border-blue-500/30';
     case 'active':
-      return 'bg-indigo-100 text-indigo-700 dark:bg-indigo-950/60 dark:text-indigo-300 border-indigo-200 dark:border-indigo-800';
+      return 'bg-indigo-500/10 text-indigo-300 border-indigo-500/30';
     case 'client':
-      return 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800';
+      return 'bg-purple-500/15 text-purple-300 border-purple-500/30';
     case 'inactive':
-      return 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400 border-slate-200 dark:border-slate-700';
+      return 'bg-slate-800 text-slate-400 border-slate-700';
   }
 }
 
 export function getInvoiceStatusStyle(status: InvoiceStatus): string {
   switch (status) {
     case 'draft':
-      return 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300 border-slate-200 dark:border-slate-700';
+      return 'bg-slate-800 text-slate-300 border-slate-700';
     case 'sent':
-      return 'bg-amber-100 text-amber-700 dark:bg-amber-950/60 dark:text-amber-300 border-amber-200 dark:border-amber-800';
+      return 'bg-amber-500/10 text-amber-300 border-amber-500/30';
     case 'paid':
-      return 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800';
+      return 'bg-purple-500/15 text-purple-300 border-purple-500/30';
     case 'overdue':
-      return 'bg-rose-100 text-rose-700 dark:bg-rose-950/60 dark:text-rose-300 border-rose-200 dark:border-rose-800';
+      return 'bg-rose-500/10 text-rose-300 border-rose-500/30';
   }
 }
 
 export function getTaskPriorityStyle(priority: TaskPriority): string {
   switch (priority) {
     case 'high':
-      return 'bg-rose-100 text-rose-700 dark:bg-rose-950/60 dark:text-rose-300 border-rose-200 dark:border-rose-800';
+      return 'bg-rose-500/10 text-rose-300 border-rose-500/30';
     case 'medium':
-      return 'bg-amber-100 text-amber-700 dark:bg-amber-950/60 dark:text-amber-300 border-amber-200 dark:border-amber-800';
+      return 'bg-amber-500/10 text-amber-300 border-amber-500/30';
     case 'low':
-      return 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800';
+      return 'bg-blue-500/10 text-blue-300 border-blue-500/30';
   }
 }
 
