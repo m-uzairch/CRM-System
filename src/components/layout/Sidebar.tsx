@@ -54,17 +54,16 @@ const navSections: NavSection[] = [
     ],
   },
   {
-    title: 'Documents',
+    title: 'Tools & AI',
     items: [
+      { name: 'AI Extractor', href: '/extractor', icon: Bot, badge: 'AI' },
       { name: 'Documents', href: '/invoices', icon: FileText },
-      { name: 'AI Extractor', href: '/analytics?tab=extractor', icon: Bot, badge: 'AI' },
     ],
   },
   {
-    title: 'Analytics',
+    title: 'Analytics & Settings',
     items: [
-      { name: 'Reports', href: '/analytics', icon: PieChart },
-      { name: 'Analytics', href: '/analytics?tab=performance', icon: BarChart3 },
+      { name: 'Analytics', href: '/analytics', icon: PieChart },
       { name: 'Settings', href: '/settings', icon: Settings },
     ],
   },

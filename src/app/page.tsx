@@ -421,11 +421,14 @@ export default function ExecutiveDashboard() {
               <FileText size={15} className="text-blue-400" />
               AI Document Extractor
             </h4>
-            <span className="text-[10px] text-blue-400 font-bold uppercase">PDF / DOCX</span>
+            <span className="text-[10px] text-blue-400 font-bold uppercase">CSV / PDF</span>
           </div>
 
-          {/* Dashed Upload Zone */}
-          <div className="p-5 rounded-2xl border-2 border-dashed border-white/[0.12] hover:border-purple-500/60 transition-colors bg-white/[0.01] hover:bg-purple-500/[0.02] flex flex-col items-center justify-center text-center space-y-2 group cursor-pointer">
+          {/* Dashed Upload Zone Link */}
+          <Link
+            href="/extractor"
+            className="p-5 rounded-2xl border-2 border-dashed border-white/[0.12] hover:border-purple-500/60 transition-colors bg-white/[0.01] hover:bg-purple-500/[0.02] flex flex-col items-center justify-center text-center space-y-2 group cursor-pointer"
+          >
             <div className="p-3 rounded-2xl bg-purple-500/10 text-purple-400 group-hover:scale-110 transition-transform">
               <UploadCloud size={24} />
             </div>
@@ -434,13 +437,13 @@ export default function ExecutiveDashboard() {
                 Choose File to Extract
               </span>
               <p className="text-[10px] text-slate-400 mt-0.5">
-                or drag and drop invoice / contract files here
+                Upload CSV or PDF to extract & import into CRM
               </p>
             </div>
-          </div>
+          </Link>
 
           <p className="text-[10px] text-slate-400 text-center">
-            Auto-parses client metadata & deal values into CRM fields using Gemini AI.
+            Auto-parses client metadata & deal values into CRM fields using AI.
           </p>
         </Card>
 
