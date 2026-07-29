@@ -30,13 +30,13 @@ export default function Header({ onToggleMobileSidebar }: HeaderProps) {
 
   return (
     <>
-      <header className="h-16 px-4 sm:px-6 bg-[#0A0A0F]/90 backdrop-blur-md border-b border-white/[0.06] flex items-center justify-between gap-3 z-20 shrink-0 select-none">
+      <header className="h-16 px-4 sm:px-6 bg-zinc-950/90 backdrop-blur-md border-b border-zinc-800 flex items-center justify-between gap-3 z-20 shrink-0 select-none">
         {/* Left: Mobile Drawer Button & Search Input */}
         <div className="flex items-center gap-3 flex-1 max-w-md">
           {onToggleMobileSidebar && (
             <button
               onClick={onToggleMobileSidebar}
-              className="md:hidden p-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/[0.06] transition-colors shrink-0"
+              className="md:hidden p-2 rounded-xl text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors shrink-0"
               title="Open Navigation Drawer"
             >
               <Menu size={20} />
@@ -44,13 +44,13 @@ export default function Header({ onToggleMobileSidebar }: HeaderProps) {
           )}
 
           <div className="relative w-full">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" size={15} />
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-400" size={15} />
             <input
               type="text"
               placeholder="Search Avex CRM... (⌘K)"
-              className="w-full pl-10 pr-12 py-2 bg-[#151520] text-xs sm:text-sm text-slate-100 placeholder-slate-400 rounded-xl border border-white/[0.06] focus:border-purple-500/50 focus:outline-none focus:ring-1 focus:ring-purple-500/30 transition-all"
+              className="w-full pl-10 pr-12 py-2 bg-zinc-900 text-xs sm:text-sm text-zinc-100 placeholder-zinc-400 rounded-xl border border-zinc-800 focus:border-white focus:outline-none transition-all"
             />
-            <kbd className="hidden sm:inline-block absolute right-3 top-1/2 -translate-y-1/2 px-1.5 py-0.5 text-[10px] font-bold text-slate-400 bg-white/[0.06] rounded border border-white/[0.08]">
+            <kbd className="hidden sm:inline-block absolute right-3 top-1/2 -translate-y-1/2 px-1.5 py-0.5 text-[10px] font-bold text-zinc-400 bg-zinc-800 rounded border border-zinc-700">
               ⌘K
             </kbd>
           </div>
@@ -62,9 +62,9 @@ export default function Header({ onToggleMobileSidebar }: HeaderProps) {
           {contacts.length === 0 && (
             <button
               onClick={loadSampleDatasetForAccount}
-              className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-purple-300 bg-purple-500/10 hover:bg-purple-500/20 rounded-xl border border-purple-500/30 transition-colors"
+              className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-zinc-300 bg-zinc-800 hover:bg-zinc-700 rounded-xl border border-zinc-700 transition-colors cursor-pointer"
             >
-              <Sparkles size={13} className="text-purple-400" />
+              <Sparkles size={13} className="text-zinc-300" />
               Load Sample Data
             </button>
           )}
@@ -73,7 +73,7 @@ export default function Header({ onToggleMobileSidebar }: HeaderProps) {
           <div className="relative">
             <button
               onClick={() => setShowQuickCreateMenu(!showQuickCreateMenu)}
-              className="flex items-center gap-1.5 px-3 sm:px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 active:scale-98 text-white text-xs sm:text-sm font-semibold rounded-xl shadow-lg shadow-purple-600/20 transition-all"
+              className="flex items-center gap-1.5 px-3 sm:px-4 py-2 bg-white hover:bg-zinc-200 text-zinc-950 text-xs sm:text-sm font-extrabold rounded-xl shadow-md transition-all cursor-pointer"
             >
               <Plus size={16} />
               <span className="hidden sm:inline">Create New</span>
@@ -81,13 +81,13 @@ export default function Header({ onToggleMobileSidebar }: HeaderProps) {
             </button>
 
             {showQuickCreateMenu && (
-              <div className="absolute right-0 mt-2 w-48 bg-[#151520] rounded-2xl shadow-2xl border border-white/[0.08] py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
+              <div className="absolute right-0 mt-2 w-48 bg-zinc-900 rounded-2xl shadow-2xl border border-zinc-800 py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
                 <button
                   onClick={() => {
                     setShowContactModal(true);
                     setShowQuickCreateMenu(false);
                   }}
-                  className="w-full text-left px-4 py-2 text-xs sm:text-sm text-slate-300 hover:bg-white/[0.06] hover:text-white font-medium transition-colors"
+                  className="w-full text-left px-4 py-2 text-xs sm:text-sm text-zinc-300 hover:bg-zinc-800 hover:text-white font-medium transition-colors cursor-pointer"
                 >
                   + New Contact / Lead
                 </button>
@@ -96,7 +96,7 @@ export default function Header({ onToggleMobileSidebar }: HeaderProps) {
                     setShowDealModal(true);
                     setShowQuickCreateMenu(false);
                   }}
-                  className="w-full text-left px-4 py-2 text-xs sm:text-sm text-slate-300 hover:bg-white/[0.06] hover:text-white font-medium transition-colors"
+                  className="w-full text-left px-4 py-2 text-xs sm:text-sm text-zinc-300 hover:bg-zinc-800 hover:text-white font-medium transition-colors cursor-pointer"
                 >
                   + New Deal Opportunity
                 </button>

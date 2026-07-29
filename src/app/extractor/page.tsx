@@ -341,32 +341,32 @@ export default function ExtractorPage() {
   return (
     <div className="space-y-6 max-w-7xl mx-auto pb-12">
       {/* Header Banner */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-gradient-to-r from-blue-900/40 via-purple-900/30 to-slate-900 p-6 rounded-3xl border border-white/10 shadow-xl backdrop-blur-md">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-zinc-900 p-6 rounded-3xl border border-zinc-800 shadow-xl backdrop-blur-md">
         <div className="space-y-1.5">
           <div className="flex items-center gap-2.5">
-            <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-blue-600 to-purple-600 flex items-center justify-center text-white shadow-lg shadow-purple-500/20">
+            <div className="w-10 h-10 rounded-2xl bg-white text-zinc-950 flex items-center justify-center font-extrabold shadow-md">
               <Bot size={22} />
             </div>
             <h1 className="text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
               AI Data & Document Extractor
-              <span className="text-[10px] px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30 font-bold uppercase tracking-wider">
+              <span className="text-[10px] px-2 py-0.5 rounded-full bg-zinc-800 text-zinc-300 border border-zinc-700 font-bold uppercase tracking-wider">
                 PRO AI
               </span>
             </h1>
           </div>
-          <p className="text-xs text-slate-300 max-w-2xl leading-relaxed">
+          <p className="text-xs text-zinc-400 max-w-2xl leading-relaxed">
             Extract structured contact metadata, companies, deal values, and status notes from CSV spreadsheets or PDF documents and input them directly into your CRM database with one click.
           </p>
         </div>
 
         {/* Quick Tabs / Mode Switcher */}
-        <div className="flex items-center gap-2 bg-slate-950/60 p-1.5 rounded-2xl border border-white/10 shrink-0">
+        <div className="flex items-center gap-2 bg-zinc-950 p-1.5 rounded-2xl border border-zinc-800 shrink-0">
           <button
             onClick={() => setActiveTab('upload')}
             className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all ${
               activeTab === 'upload'
-                ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-md shadow-blue-500/20'
-                : 'text-slate-400 hover:text-white hover:bg-white/5'
+                ? 'bg-white text-zinc-950 font-extrabold shadow-md'
+                : 'text-zinc-400 hover:text-white hover:bg-zinc-800'
             }`}
           >
             <UploadCloud size={15} />
@@ -377,10 +377,10 @@ export default function ExtractorPage() {
             disabled={extractedRecords.length === 0}
             className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all ${
               activeTab === 'preview'
-                ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-md shadow-blue-500/20'
+                ? 'bg-white text-zinc-950 font-extrabold shadow-md'
                 : extractedRecords.length === 0
-                ? 'text-slate-600 cursor-not-allowed'
-                : 'text-slate-400 hover:text-white hover:bg-white/5'
+                ? 'text-zinc-600 cursor-not-allowed'
+                : 'text-zinc-400 hover:text-white hover:bg-zinc-800'
             }`}
           >
             <Database size={15} />
@@ -394,7 +394,7 @@ export default function ExtractorPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* File Upload Zone */}
           <div className="lg:col-span-2 space-y-6">
-            <div className="p-8 bg-slate-900/80 rounded-3xl border-2 border-dashed border-white/10 hover:border-purple-500/50 transition-all flex flex-col items-center justify-center text-center space-y-4 group">
+            <div className="p-8 bg-zinc-900 rounded-3xl border-2 border-dashed border-zinc-800 hover:border-white transition-all flex flex-col items-center justify-center text-center space-y-4 group">
               <input
                 ref={fileInputRef}
                 type="file"
@@ -404,49 +404,49 @@ export default function ExtractorPage() {
                 id="extractor-file-input"
               />
 
-              <div className="w-16 h-16 rounded-3xl bg-purple-500/10 text-purple-400 group-hover:scale-110 transition-transform flex items-center justify-center border border-purple-500/20 shadow-inner">
+              <div className="w-16 h-16 rounded-3xl bg-zinc-800 text-zinc-200 group-hover:scale-110 transition-transform flex items-center justify-center border border-zinc-700 shadow-inner">
                 <UploadCloud size={34} />
               </div>
 
               <div className="space-y-1 max-w-sm">
-                <h3 className="text-base font-bold text-white group-hover:text-purple-300 transition-colors">
+                <h3 className="text-base font-bold text-white group-hover:text-zinc-300 transition-colors">
                   Upload CSV Spreadsheet or PDF Document
                 </h3>
-                <p className="text-xs text-slate-400">
+                <p className="text-xs text-zinc-400">
                   Drag and drop your file here or click to browse. Supports CSV, PDF invoices, proposals, and contracts.
                 </p>
               </div>
 
               <button
                 onClick={() => fileInputRef.current?.click()}
-                className="px-6 py-2.5 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-bold text-xs rounded-xl shadow-lg shadow-purple-500/25 transition-all flex items-center gap-2 cursor-pointer"
+                className="px-6 py-2.5 bg-white hover:bg-zinc-200 text-zinc-950 font-extrabold text-xs rounded-xl shadow-md transition-all flex items-center gap-2 cursor-pointer"
               >
                 <FileSpreadsheet size={16} />
                 Browse Files
               </button>
 
-              <div className="flex items-center gap-4 pt-2 text-[11px] text-slate-500 font-medium">
+              <div className="flex items-center gap-4 pt-2 text-[11px] text-zinc-400 font-medium">
                 <span className="flex items-center gap-1.5">
-                  <CheckCircle2 size={13} className="text-emerald-400" /> CSV Datasets
+                  <CheckCircle2 size={13} className="text-zinc-200" /> CSV Datasets
                 </span>
                 <span className="flex items-center gap-1.5">
-                  <CheckCircle2 size={13} className="text-emerald-400" /> PDF Contracts
+                  <CheckCircle2 size={13} className="text-zinc-200" /> PDF Contracts
                 </span>
                 <span className="flex items-center gap-1.5">
-                  <CheckCircle2 size={13} className="text-emerald-400" /> Auto-CRM Mapping
+                  <CheckCircle2 size={13} className="text-zinc-200" /> Auto-CRM Mapping
                 </span>
               </div>
             </div>
 
             {/* Quick Demo Pre-fill Sample Triggers */}
-            <div className="p-6 bg-slate-900/60 rounded-3xl border border-white/10 space-y-4">
+            <div className="p-6 bg-zinc-900 rounded-3xl border border-zinc-800 space-y-4">
               <div className="flex items-center justify-between">
                 <div>
                   <h3 className="text-sm font-extrabold text-white flex items-center gap-2">
-                    <Sparkles size={16} className="text-purple-400" />
+                    <Sparkles size={16} className="text-zinc-300" />
                     One-Click Demo Extraction Samples
                   </h3>
-                  <p className="text-xs text-slate-400 mt-0.5">
+                  <p className="text-xs text-zinc-400 mt-0.5">
                     Test the AI extraction & CRM input workflow instantly without uploading external files.
                   </p>
                 </div>

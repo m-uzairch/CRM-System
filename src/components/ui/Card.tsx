@@ -19,7 +19,7 @@ export default function Card({
   variant = 'default',
   interactive = true,
   className = '',
-  glowColor = 'purple',
+  glowColor = 'none',
   ...props
 }: CardProps) {
   const [reducedMotion, setReducedMotion] = useState(false);
@@ -34,32 +34,20 @@ export default function Card({
   }, []);
 
   const getGlowShadow = () => {
-    switch (glowColor) {
-      case 'blue':
-        return '0 20px 35px -10px rgba(0, 0, 0, 0.7), 0 0 25px 0px rgba(59, 130, 246, 0.2)';
-      case 'emerald':
-        return '0 20px 35px -10px rgba(0, 0, 0, 0.7), 0 0 25px 0px rgba(16, 185, 129, 0.2)';
-      case 'amber':
-        return '0 20px 35px -10px rgba(0, 0, 0, 0.7), 0 0 25px 0px rgba(245, 158, 11, 0.2)';
-      case 'none':
-        return '0 20px 35px -10px rgba(0, 0, 0, 0.7)';
-      case 'purple':
-      default:
-        return '0 20px 35px -10px rgba(0, 0, 0, 0.7), 0 0 25px 0px rgba(147, 51, 234, 0.2)';
-    }
+    return '0 20px 35px -10px rgba(0, 0, 0, 0.8), 0 0 20px 0px rgba(255, 255, 255, 0.08)';
   };
 
   const getVariantStyles = () => {
     switch (variant) {
       case 'ai':
-        return 'bg-gradient-to-b from-[#1c1836] to-[#151520] border-purple-500/30 shadow-lg shadow-purple-500/10';
+        return 'bg-zinc-900 border-zinc-700 shadow-xl shadow-black/60';
       case 'glass':
-        return 'bg-[#151520]/80 backdrop-blur-md border-white/[0.08]';
+        return 'bg-zinc-900/90 backdrop-blur-md border-zinc-800';
       case 'subtle':
-        return 'bg-[#0D0D14] border-white/[0.05]';
+        return 'bg-zinc-950 border-zinc-800';
       case 'default':
       default:
-        return 'bg-[#151520] border-white/[0.06] shadow-xl shadow-black/40';
+        return 'bg-zinc-900 border-zinc-800 shadow-xl shadow-black/50';
     }
   };
 
@@ -85,12 +73,12 @@ export default function Card({
       whileHover={
         reducedMotion
           ? {
-              borderColor: variant === 'ai' ? 'rgba(168, 85, 247, 0.6)' : 'rgba(255, 255, 255, 0.16)',
+              borderColor: 'rgba(255, 255, 255, 0.3)',
             }
           : {
               y: -5,
               scale: 1.015,
-              borderColor: variant === 'ai' ? 'rgba(168, 85, 247, 0.6)' : 'rgba(255, 255, 255, 0.16)',
+              borderColor: 'rgba(255, 255, 255, 0.3)',
               boxShadow: getGlowShadow(),
             }
       }
