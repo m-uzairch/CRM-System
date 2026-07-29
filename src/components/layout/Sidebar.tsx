@@ -46,14 +46,6 @@ const navSections: NavSection[] = [
     ],
   },
   {
-    title: 'Communication',
-    items: [
-      { name: 'Messages', href: '/contacts?action=message', icon: MessageSquare },
-      { name: 'Emails', href: '/contacts?action=email', icon: Mail },
-      { name: 'Calls', href: '/contacts?action=call', icon: PhoneCall },
-    ],
-  },
-  {
     title: 'Tools & AI',
     items: [
       { name: 'AI Extractor', href: '/extractor', icon: Bot, badge: 'AI' },

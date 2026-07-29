@@ -82,8 +82,8 @@ export default function CustomCursor() {
   if (isDisabled || !isVisible) return null;
 
   return (
-    <div className="pointer-events-none fixed inset-0 z-50 overflow-hidden">
-      {/* Trailing Radial Ambient Spotlight Glow */}
+    <div className="pointer-events-none fixed inset-0 z-[999999] overflow-hidden select-none">
+      {/* Outer Stroke Circle Ring (Smooth trailing follower) */}
       <motion.div
         style={{
           x: glowX,
@@ -91,10 +91,15 @@ export default function CustomCursor() {
           translateX: '-50%',
           translateY: '-50%',
         }}
-        className="absolute w-72 h-72 rounded-full bg-gradient-to-tr from-blue-600/15 via-purple-600/15 to-pink-500/10 blur-3xl"
+        animate={{
+          scale: isHovered ? 1.6 : 1,
+          borderColor: isHovered ? 'rgba(255, 255, 255, 0.9)' : 'rgba(255, 255, 255, 0.4)',
+        }}
+        transition={{ type: 'spring', stiffness: 350, damping: 24 }}
+        className="absolute w-8 h-8 rounded-full border border-white/50 shadow-xs"
       />
 
-      {/* Primary Cursor Pointer Dot */}
+      {/* Primary Small Cursor Pointer Dot */}
       <motion.div
         style={{
           x: cursorX,
@@ -103,11 +108,11 @@ export default function CustomCursor() {
           translateY: '-50%',
         }}
         animate={{
-          scale: isHovered ? 2.2 : 1,
-          opacity: isHovered ? 0.9 : 0.85,
+          scale: isHovered ? 1.2 : 1,
+          opacity: 1,
         }}
-        transition={{ type: 'spring', stiffness: 400, damping: 25 }}
-        className="absolute w-3.5 h-3.5 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 shadow-md shadow-purple-500/40 ring-1 ring-white/30"
+        transition={{ type: 'spring', stiffness: 500, damping: 28 }}
+        className="absolute w-1.5 h-1.5 rounded-full bg-white shadow-sm ring-1 ring-black/40"
       />
     </div>
   );

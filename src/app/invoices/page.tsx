@@ -2,7 +2,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Plus, Download, Eye, Trash2, CheckCircle2 } from 'lucide-react';
+import { Plus, Download, Eye, Trash2, CheckCircle2, FileSpreadsheet } from 'lucide-react';
 import { useCRM } from '@/lib/store/crm-context';
 import { Invoice } from '@/lib/types';
 import { formatCurrency, formatDate, getInvoiceStatusStyle } from '@/lib/utils';
@@ -29,6 +29,32 @@ export default function InvoicesPage() {
     .filter((i) => i.status === 'sent' || i.status === 'overdue')
     .reduce((sum, i) => sum + i.total, 0);
 
+  const handleExportCSV = () => {
+    const csvRows = [
+      ['Invoice Number', 'Client Name', 'Client Email', 'Total Amount', 'Status', 'Issue Date', 'Due Date'].join(','),
+      ...filteredInvoices.map(inv =>
+        [
+          `"${inv.invoice_number}"`,
+          `"${inv.client_name || ''}"`,
+          `"${inv.client_email || ''}"`,
+          `"${inv.total}"`,
+          `"${inv.status}"`,
+          `"${inv.issue_date}"`,
+          `"${inv.due_date}"`
+        ].join(',')
+      )
+    ];
+
+    const blob = new Blob([csvRows.join('\n')], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.setAttribute('href', url);
+    a.setAttribute('download', `avex_invoices_report_${new Date().toISOString().split('T')[0]}.csv`);
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  };
+
   return (
     <div className="space-y-6 select-none">
       {/* Page Title & Action Bar */}
@@ -42,13 +68,24 @@ export default function InvoicesPage() {
           </p>
         </div>
 
-        <button
-          onClick={() => setShowBuilderModal(true)}
-          className="flex items-center gap-1.5 px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white text-xs font-bold rounded-xl shadow-lg shadow-purple-600/30 transition-all self-start sm:self-auto"
-        >
-          <Plus size={15} />
-          <span>Create Invoice</span>
-        </button>
+        <div className="flex items-center gap-2 self-start sm:self-auto flex-wrap">
+          <button
+            onClick={handleExportCSV}
+            className="flex items-center gap-1.5 px-3.5 py-2 bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 text-white text-xs font-bold rounded-xl transition-all cursor-pointer"
+            title="Download CSV Invoice Report"
+          >
+            <Download size={14} />
+            <span>Download CSV Report</span>
+          </button>
+
+          <button
+            onClick={() => setShowBuilderModal(true)}
+            className="flex items-center gap-1.5 px-4 py-2 bg-white hover:bg-zinc-200 text-zinc-950 text-xs font-extrabold rounded-xl shadow-lg transition-all cursor-pointer"
+          >
+            <Plus size={15} />
+            <span>Create Invoice</span>
+          </button>
+        </div>
       </div>
 
       {/* Revenue Stat Metrics */}
@@ -83,7 +120,7 @@ export default function InvoicesPage() {
           <select
             value={filterStatus}
             onChange={(e) => setFilterStatus(e.target.value)}
-            className="px-3 py-1.5 bg-[#0A0A0F] border border-white/[0.08] rounded-xl text-xs text-slate-300 focus:outline-none"
+            className="px-3 py-1.5 bg-[#0A0A0F] border border-white/[0.08] rounded-xl text-xs text-slate-300 focus:outline-none cursor-pointer"
           >
             <option value="all">All Invoices</option>
             <option value="draft">Drafts</option>
@@ -133,7 +170,7 @@ export default function InvoicesPage() {
                         {inv.status !== 'paid' && (
                           <button
                             onClick={() => updateInvoiceStatus(inv.id, 'paid')}
-                            className="p-1.5 rounded-lg text-emerald-400 hover:bg-emerald-500/10 transition-colors"
+                            className="p-1.5 rounded-lg text-emerald-400 hover:bg-emerald-500/10 transition-colors cursor-pointer"
                             title="Mark as Paid"
                           >
                             <CheckCircle2 size={15} />
@@ -141,14 +178,21 @@ export default function InvoicesPage() {
                         )}
                         <button
                           onClick={() => setSelectedInvoiceForPDF(inv)}
-                          className="p-1.5 rounded-lg text-purple-400 hover:bg-purple-500/10 transition-colors"
-                          title="View / Export PDF"
+                          className="p-1.5 rounded-lg text-white hover:bg-white/10 transition-colors cursor-pointer"
+                          title="Download / View PDF Invoice"
+                        >
+                          <Download size={15} />
+                        </button>
+                        <button
+                          onClick={() => setSelectedInvoiceForPDF(inv)}
+                          className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/[0.06] transition-colors cursor-pointer"
+                          title="Preview Invoice"
                         >
                           <Eye size={15} />
                         </button>
                         <button
                           onClick={() => deleteInvoice(inv.id)}
-                          className="p-1.5 rounded-lg text-slate-400 hover:text-rose-400 hover:bg-white/[0.06] transition-colors"
+                          className="p-1.5 rounded-lg text-slate-400 hover:text-rose-400 hover:bg-white/[0.06] transition-colors cursor-pointer"
                           title="Delete Invoice"
                         >
                           <Trash2 size={15} />
